@@ -12,6 +12,12 @@ namespace Pharmacy.Persistence.Context
 {
     public class DatabaseService : IdentityDbContext<ApplicationUser>, IDatabaseService
     {
+        public DatabaseService(DbContextOptions<DatabaseService> options) 
+            : base(options)
+        {
+
+        }
+
         public DbSet<Category> Category { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public DbSet<ApplicationUser> AppUser { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
