@@ -349,6 +349,9 @@ namespace Pharmacy.Persistence.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Quantity_Trade_Bar")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("buyingPrice")
                         .HasColumnType("decimal(18,2)");
 

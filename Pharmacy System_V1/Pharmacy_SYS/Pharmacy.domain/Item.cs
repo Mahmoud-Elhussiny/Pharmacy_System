@@ -18,6 +18,7 @@ namespace Pharmacy.domain
         public DateTime expireDate { get; set; }
         public int Quantity { get; set; }
         public int? Num_Trade_Bar { get; set; }
+        public int? Quantity_Trade_Bar { get; set; }
         public decimal? buyingPrice { get; set; }
         public decimal? sellingPrice { get; set; }
         public DateTime timeCreated { get; set; }

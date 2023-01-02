@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Pharmacy.domain
 {
-    [Table("User")]
     public class ApplicationUser : IdentityUser
     {
         [Required]
@@ -29,8 +28,7 @@ namespace Pharmacy.domain
         [MinLength(5)]
         public string? Address { get; set; } = "";
 
-        [DefaultValue(true)]
-        public bool isActive { get; set; }=true;
+        public bool isActive { get; set; }
         public string? Picture { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
