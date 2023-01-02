@@ -4,23 +4,22 @@
 
 namespace Pharmacy.Persistence.Migrations
 {
-    public partial class add_Column_IdActiveInUser : Migration
+    public partial class add_column_InItem : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "isActive",
-                table: "AspNetUsers",
-                type: "bit",
-                nullable: false,
-                defaultValue: true);
+            migrationBuilder.AddColumn<int>(
+                name: "Quantity_Trade_Bar",
+                table: "Item",
+                type: "int",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "isActive",
-                table: "AspNetUsers");
+                name: "Quantity_Trade_Bar",
+                table: "Item");
         }
     }
 }

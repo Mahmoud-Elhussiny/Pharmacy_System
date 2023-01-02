@@ -12,8 +12,8 @@ using Pharmacy.Persistence.Context;
 namespace Pharmacy.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseService))]
-    [Migration("20230101145852_intial_DB")]
-    partial class intial_DB
+    [Migration("20230102113135_init_DB")]
+    partial class init_DB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -228,6 +228,9 @@ namespace Pharmacy.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("lastName")
                         .IsRequired()

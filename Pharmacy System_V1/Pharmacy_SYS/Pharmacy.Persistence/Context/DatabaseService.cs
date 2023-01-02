@@ -21,6 +21,12 @@ namespace Pharmacy.Persistence.Context
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OrderItem>().HasKey(o => new{ o.orderId,o.itemId});
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

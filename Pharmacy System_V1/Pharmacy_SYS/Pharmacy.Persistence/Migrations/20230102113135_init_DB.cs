@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pharmacy.Persistence.Migrations
 {
-    public partial class intial_DB : Migration
+    public partial class init_DB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,6 +33,7 @@ namespace Pharmacy.Persistence.Migrations
                     Phone1 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     Phone2 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -234,7 +235,7 @@ namespace Pharmacy.Persistence.Migrations
                         column: x => x.userId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Order_OrderType_orderType",
                         column: x => x.orderType,
@@ -284,7 +285,7 @@ namespace Pharmacy.Persistence.Migrations
                         column: x => x.orderId,
                         principalTable: "Order",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -327,19 +328,19 @@ namespace Pharmacy.Persistence.Migrations
                         column: x => x.distributedId,
                         principalTable: "DistributedCompany",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Item_Stock_stockId",
                         column: x => x.stockId,
                         principalTable: "Stock",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Item_TheManufacturer_manufactureId",
                         column: x => x.manufactureId,
                         principalTable: "TheManufacturer",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -360,13 +361,13 @@ namespace Pharmacy.Persistence.Migrations
                         column: x => x.itemId,
                         principalTable: "Item",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderItem_Order_orderId",
                         column: x => x.orderId,
                         principalTable: "Order",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

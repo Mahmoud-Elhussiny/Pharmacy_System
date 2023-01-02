@@ -12,8 +12,8 @@ using Pharmacy.Persistence.Context;
 namespace Pharmacy.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseService))]
-    [Migration("20230101153350_add_Column_IdActiveInUser")]
-    partial class add_Column_IdActiveInUser
+    [Migration("20230102123037_add_column_InItem")]
+    partial class add_column_InItem
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -349,6 +349,9 @@ namespace Pharmacy.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Quantity_Trade_Bar")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("buyingPrice")
