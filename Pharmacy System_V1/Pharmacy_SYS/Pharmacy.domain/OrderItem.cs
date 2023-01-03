@@ -11,9 +11,10 @@ namespace Pharmacy.domain
     [Table("OrderItem")]
     public class OrderItem
     {
+       // public int Id { get; set; } 
         [Column(Order =0)]
         public int orderId { get; set; }
-        [Column(Order =1)]
+       [Column(Order =1)]
         public int itemId { get; set; }
         public virtual Order Order { get; set; }
         public virtual Item Item { get; set; }
