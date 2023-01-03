@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pharmacy.Persistence.Migrations
 {
-    public partial class init_DB : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,7 @@ namespace Pharmacy.Persistence.Migrations
                     Phone1 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     Phone2 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    isActive = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "('true')"),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -300,6 +300,7 @@ namespace Pharmacy.Persistence.Migrations
                     expireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Num_Trade_Bar = table.Column<int>(type: "int", nullable: true),
+                    Quantity_Trade_Bar = table.Column<int>(type: "int", nullable: true),
                     buyingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     sellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     timeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -347,15 +348,13 @@ namespace Pharmacy.Persistence.Migrations
                 name: "OrderItem",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
                     orderId = table.Column<int>(type: "int", nullable: false),
-                    itemId = table.Column<int>(type: "int", nullable: false)
+                    itemId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItem", x => x.Id);
+                    table.PrimaryKey("PK_OrderItem", x => new { x.orderId, x.itemId });
                     table.ForeignKey(
                         name: "FK_OrderItem_Item_itemId",
                         column: x => x.itemId,
@@ -461,11 +460,6 @@ namespace Pharmacy.Persistence.Migrations
                 name: "IX_OrderItem_itemId",
                 table: "OrderItem",
                 column: "itemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_orderId",
-                table: "OrderItem",
-                column: "orderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

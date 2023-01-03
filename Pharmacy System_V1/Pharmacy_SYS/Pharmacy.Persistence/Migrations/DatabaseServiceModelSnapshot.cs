@@ -228,7 +228,9 @@ namespace Pharmacy.Persistence.Migrations
                         .HasColumnType("nvarchar(25)");
 
                     b.Property<bool>("isActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValueSql("('true')");
 
                     b.Property<string>("lastName")
                         .IsRequired()
@@ -436,26 +438,20 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.OrderItem", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<int>("orderId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<int>("itemId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("itemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("orderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("orderId", "itemId");
 
                     b.HasIndex("itemId");
-
-                    b.HasIndex("orderId");
 
                     b.ToTable("OrderItem");
                 });

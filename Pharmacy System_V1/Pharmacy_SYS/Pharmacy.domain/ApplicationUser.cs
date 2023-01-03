@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Pharmacy.domain
 {
+   // [Table("ph_user")]
     public class ApplicationUser : IdentityUser
     {
         [Required]

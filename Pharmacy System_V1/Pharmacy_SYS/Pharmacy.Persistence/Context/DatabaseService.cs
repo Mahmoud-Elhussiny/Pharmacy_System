@@ -24,7 +24,12 @@ namespace Pharmacy.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<OrderItem>().HasKey(o => new{ o.orderId,o.itemId});
+            modelBuilder.Entity<ApplicationUser>(entity =>
+            {
+                entity.Property(e => e.isActive).HasDefaultValueSql("('true')");
+            });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
