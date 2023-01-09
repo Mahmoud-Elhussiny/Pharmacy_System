@@ -15,27 +15,22 @@ namespace Pharmacy.domain
         public string tradeName { get; set; } = "";
         public string chemicalName { get; set; } = "";
         public string Code { get; set; } = null!;
-        public DateTime expireDate { get; set; }
-        public int Quantity { get; set; }
-        public int? Num_Trade_Bar { get; set; }
-        public int? Quantity_Trade_Bar { get; set; }
+        public DateTime duration { get; set; }
         public decimal? buyingPrice { get; set; }
         public decimal? sellingPrice { get; set; }
-        public DateTime timeCreated { get; set; }
-        public DateTime timeModified { get; set; }
-        [ForeignKey("Category")]
-        public int? categoryId { get; set; }
-        [ForeignKey("Stock")]
-        public int stockId { get; set; }
-        [ForeignKey("TheManufacturer")]
+        [ForeignKey("ItemType")]
+        public int itemtypeId { get; set; }
         public int manufactureId { get; set; }
         [ForeignKey("DistributedCompany")]
         public int distributedId { get; set; }
-        public virtual Category? Category { get; set; }
-        public virtual Stock Stock { get; set; }
+        public virtual ICollection<ItemUnit> ItemUnits { get; set; }
+        public virtual ItemType ItemType { get; set; }
         public virtual TheManufacturer TheManufacturer { get; set; }
         public virtual DistributedCompany DistributedCompany { get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<ItemBarcode> ItemBarcodes { get; set; }
+        public virtual ICollection<SellingBillDetails> SellingBillDetails { get; set; }
+        public virtual ICollection<DataWarehouse> DataWarehouses { get; set; }
+
 
 
 

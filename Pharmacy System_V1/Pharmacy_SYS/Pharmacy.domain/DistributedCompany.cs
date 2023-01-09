@@ -23,5 +23,6 @@ namespace Pharmacy.domain
         public int? TheManufacturerId { get; set; }
         public virtual TheManufacturer? TheManufacturer { get; set; }
         public virtual ICollection<Item>? Items { get; set; }
+        public virtual ICollection<Representer>? Representers { get; set; }
     }
 }

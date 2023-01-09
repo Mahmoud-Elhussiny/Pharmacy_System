@@ -29,11 +29,13 @@ namespace Pharmacy.domain
         [MaxLength(100)]
         [MinLength(5)]
         public string? Address { get; set; } = "";
-
         public bool isActive { get; set; }
         public string? Picture { get; set; }
         public virtual ICollection<Item> Items { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<SellingBill> SellingBills { get; set; }
+        public virtual ICollection<PurchasingBill> PurchasingBills { get; set; }
+        public virtual ICollection<DataWarehouse> DataWarehouses { get; set; }
+
 
 
     }
