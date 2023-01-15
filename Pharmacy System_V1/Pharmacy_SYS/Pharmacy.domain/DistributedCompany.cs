@@ -16,7 +16,8 @@ namespace Pharmacy.domain
         [Required]
         [MaxLength(100)]
         [MinLength(2)]
-        public string Name { get; set; } = null!;
+        public string NameEn { get; set; } = null!;
+        public string NameAr { get; set; } = null!;
         public string? Location { get; set; }
         public string? Phone { get; set; }
         [ForeignKey("TheManufacturer")]

@@ -15,7 +15,7 @@ namespace Pharmacy.domain
         public DateTime productionDate { get; set; }
         public string codeGenerated { get; set; }
         public virtual Item Item { get; set; }
-        public virtual ICollection<DataWarehouse> DataWarehouses { get; set; }
+        public virtual ICollection<DataWarehouse>? DataWarehouses { get; set; }
 
     }
 }

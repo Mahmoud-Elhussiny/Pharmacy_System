@@ -31,13 +31,13 @@ namespace Pharmacy.Persistence.Context
             });
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
 
-            optionsBuilder.UseSqlServer("server =.;Database=PharmacySystem; Trusted_Connection=True;");
+        //    optionsBuilder.UseSqlServer("server =.;Database=PharmacySystem; Trusted_Connection=True;");
 
-        }
-       
+        //}
+
 
 
         public DbSet<Unit> units { get; set; }

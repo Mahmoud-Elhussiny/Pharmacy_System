@@ -11,6 +11,6 @@ namespace Pharmacy.domain
         public int Id { get; set; }
         public string nameEn { get; set; }
         public string nameAr { get; set; }
-        public virtual ICollection<Item> Items { get; set; }
+        public virtual ICollection<Item>? Items { get; set; }
     }
 }

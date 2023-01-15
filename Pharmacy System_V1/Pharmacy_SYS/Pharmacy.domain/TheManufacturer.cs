@@ -13,7 +13,8 @@ namespace Pharmacy.domain
     {
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; } = null!;
+        public string NameEn { get; set; } = null!;
+        public string NameAr { get; set; } = null!;
         public string Location { get; set; } = null!;
         [MaxLength(11)]
         [MinLength(11)]

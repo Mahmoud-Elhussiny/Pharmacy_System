@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pharmacy.Persistence.Migrations
 {
-    public partial class init : Migration
+    public partial class intialDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,11 +31,14 @@ namespace Pharmacy.Persistence.Migrations
                     firstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     lastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Phone1 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Phone2 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    isAdmin = table.Column<int>(type: "int", nullable: true),
+                    lastloginDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    timeCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "('true')"),
-                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -56,43 +59,17 @@ namespace Pharmacy.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "itemTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    nameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    nameAr = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Stock",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stock", x => x.Id);
+                    table.PrimaryKey("PK_itemTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,13 +78,28 @@ namespace Pharmacy.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TheManufacturer", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "units",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    nameAr = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_units", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,30 +209,26 @@ namespace Pharmacy.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "sellingBills",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    totalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    discount = table.Column<int>(type: "int", nullable: false),
+                    tax = table.Column<int>(type: "int", nullable: false),
                     timeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    timeModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    userId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    orderType = table.Column<int>(type: "int", nullable: true)
+                    userId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.PrimaryKey("PK_sellingBills", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_userId",
+                        name: "FK_sellingBills_AspNetUsers_userId",
                         column: x => x.userId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Order_OrderType_orderType",
-                        column: x => x.orderType,
-                        principalTable: "OrderType",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -249,7 +237,8 @@ namespace Pharmacy.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    NameEn = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TheManufacturerId = table.Column<int>(type: "int", nullable: true)
@@ -265,50 +254,24 @@ namespace Pharmacy.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoice",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Tax = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    totalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    timeCreadted = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    timeModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    orderId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Invoice", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Invoice_Order_orderId",
-                        column: x => x.orderId,
-                        principalTable: "Order",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Item",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    tradeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    tradeNameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    tradeNameAr = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     chemicalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    expireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Num_Trade_Bar = table.Column<int>(type: "int", nullable: true),
-                    Quantity_Trade_Bar = table.Column<int>(type: "int", nullable: true),
+                    itemNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    molality = table.Column<int>(type: "int", nullable: true),
+                    duration = table.Column<DateTime>(type: "datetime2", nullable: false),
                     buyingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     sellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    timeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    timeModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    categoryId = table.Column<int>(type: "int", nullable: true),
-                    stockId = table.Column<int>(type: "int", nullable: false),
-                    manufactureId = table.Column<int>(type: "int", nullable: false),
-                    distributedId = table.Column<int>(type: "int", nullable: false),
+                    itemtypeId = table.Column<int>(type: "int", nullable: true),
+                    manufactureId = table.Column<int>(type: "int", nullable: true),
+                    distributedId = table.Column<int>(type: "int", nullable: true),
+                    TheManufacturerId = table.Column<int>(type: "int", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -320,53 +283,223 @@ namespace Pharmacy.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Item_Category_categoryId",
-                        column: x => x.categoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Item_DistributedCompany_distributedId",
                         column: x => x.distributedId,
                         principalTable: "DistributedCompany",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Item_Stock_stockId",
-                        column: x => x.stockId,
-                        principalTable: "Stock",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Item_itemTypes_itemtypeId",
+                        column: x => x.itemtypeId,
+                        principalTable: "itemTypes",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Item_TheManufacturer_manufactureId",
-                        column: x => x.manufactureId,
+                        name: "FK_Item_TheManufacturer_TheManufacturerId",
+                        column: x => x.TheManufacturerId,
                         principalTable: "TheManufacturer",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "representers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    distributed_Company_Id = table.Column<int>(type: "int", nullable: false),
+                    phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_representers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_representers_DistributedCompany_distributed_Company_Id",
+                        column: x => x.distributed_Company_Id,
+                        principalTable: "DistributedCompany",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItem",
+                name: "itemBarcodes",
                 columns: table => new
                 {
-                    orderId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     itemId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    productionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    codeGenerated = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItem", x => new { x.orderId, x.itemId });
+                    table.PrimaryKey("PK_itemBarcodes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderItem_Item_itemId",
+                        name: "FK_itemBarcodes_Item_itemId",
+                        column: x => x.itemId,
+                        principalTable: "Item",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "itemUnits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    itemId = table.Column<int>(type: "int", nullable: false),
+                    unitId = table.Column<int>(type: "int", nullable: false),
+                    quantityContent = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_itemUnits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_itemUnits_Item_itemId",
                         column: x => x.itemId,
                         principalTable: "Item",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItem_Order_orderId",
-                        column: x => x.orderId,
-                        principalTable: "Order",
+                        name: "FK_itemUnits_units_unitId",
+                        column: x => x.unitId,
+                        principalTable: "units",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "sellingBillDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    sellingbillId = table.Column<int>(type: "int", nullable: false),
+                    itemId = table.Column<int>(type: "int", nullable: true),
+                    quantity = table.Column<int>(type: "int", nullable: false),
+                    unitId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sellingBillDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sellingBillDetails_Item_itemId",
+                        column: x => x.itemId,
+                        principalTable: "Item",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_sellingBillDetails_sellingBills_sellingbillId",
+                        column: x => x.sellingbillId,
+                        principalTable: "sellingBills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_sellingBillDetails_units_unitId",
+                        column: x => x.unitId,
+                        principalTable: "units",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "purchasingBills",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    totalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    discount = table.Column<int>(type: "int", nullable: false),
+                    tax = table.Column<int>(type: "int", nullable: false),
+                    timeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    representerId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_purchasingBills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_purchasingBills_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_purchasingBills_representers_representerId",
+                        column: x => x.representerId,
+                        principalTable: "representers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "dataWarehouses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    itemId = table.Column<int>(type: "int", nullable: true),
+                    sellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    buyingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    itemunitId = table.Column<int>(type: "int", nullable: true),
+                    itembarcodeId = table.Column<int>(type: "int", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    timeCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_dataWarehouses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_dataWarehouses_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_dataWarehouses_Item_itemId",
+                        column: x => x.itemId,
+                        principalTable: "Item",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_dataWarehouses_itemBarcodes_itembarcodeId",
+                        column: x => x.itembarcodeId,
+                        principalTable: "itemBarcodes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_dataWarehouses_itemUnits_itemunitId",
+                        column: x => x.itemunitId,
+                        principalTable: "itemUnits",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "puchasingBillDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    itemId = table.Column<int>(type: "int", nullable: true),
+                    quantity = table.Column<int>(type: "int", nullable: false),
+                    unitId = table.Column<int>(type: "int", nullable: true),
+                    purchasingbillId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_puchasingBillDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_puchasingBillDetails_Item_itemId",
+                        column: x => x.itemId,
+                        principalTable: "Item",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_puchasingBillDetails_purchasingBills_purchasingbillId",
+                        column: x => x.purchasingbillId,
+                        principalTable: "purchasingBills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_puchasingBillDetails_units_unitId",
+                        column: x => x.unitId,
+                        principalTable: "units",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -409,15 +542,29 @@ namespace Pharmacy.Persistence.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_dataWarehouses_itembarcodeId",
+                table: "dataWarehouses",
+                column: "itembarcodeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_dataWarehouses_itemId",
+                table: "dataWarehouses",
+                column: "itemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_dataWarehouses_itemunitId",
+                table: "dataWarehouses",
+                column: "itemunitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_dataWarehouses_userId",
+                table: "dataWarehouses",
+                column: "userId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DistributedCompany_TheManufacturerId",
                 table: "DistributedCompany",
                 column: "TheManufacturerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Invoice_orderId",
-                table: "Invoice",
-                column: "orderId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Item_ApplicationUserId",
@@ -425,41 +572,84 @@ namespace Pharmacy.Persistence.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Item_categoryId",
-                table: "Item",
-                column: "categoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Item_distributedId",
                 table: "Item",
                 column: "distributedId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Item_manufactureId",
+                name: "IX_Item_itemtypeId",
                 table: "Item",
-                column: "manufactureId");
+                column: "itemtypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Item_stockId",
+                name: "IX_Item_TheManufacturerId",
                 table: "Item",
-                column: "stockId");
+                column: "TheManufacturerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_orderType",
-                table: "Order",
-                column: "orderType",
-                unique: true,
-                filter: "[orderType] IS NOT NULL");
+                name: "IX_itemBarcodes_itemId",
+                table: "itemBarcodes",
+                column: "itemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_userId",
-                table: "Order",
+                name: "IX_itemUnits_itemId",
+                table: "itemUnits",
+                column: "itemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_itemUnits_unitId",
+                table: "itemUnits",
+                column: "unitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_puchasingBillDetails_itemId",
+                table: "puchasingBillDetails",
+                column: "itemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_puchasingBillDetails_purchasingbillId",
+                table: "puchasingBillDetails",
+                column: "purchasingbillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_puchasingBillDetails_unitId",
+                table: "puchasingBillDetails",
+                column: "unitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_purchasingBills_representerId",
+                table: "purchasingBills",
+                column: "representerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_purchasingBills_userId",
+                table: "purchasingBills",
                 column: "userId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_itemId",
-                table: "OrderItem",
+                name: "IX_representers_distributed_Company_Id",
+                table: "representers",
+                column: "distributed_Company_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sellingBillDetails_itemId",
+                table: "sellingBillDetails",
                 column: "itemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sellingBillDetails_sellingbillId",
+                table: "sellingBillDetails",
+                column: "sellingbillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sellingBillDetails_unitId",
+                table: "sellingBillDetails",
+                column: "unitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sellingBills_userId",
+                table: "sellingBills",
+                column: "userId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -480,34 +670,46 @@ namespace Pharmacy.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Invoice");
+                name: "dataWarehouses");
 
             migrationBuilder.DropTable(
-                name: "OrderItem");
+                name: "puchasingBillDetails");
+
+            migrationBuilder.DropTable(
+                name: "sellingBillDetails");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "itemBarcodes");
+
+            migrationBuilder.DropTable(
+                name: "itemUnits");
+
+            migrationBuilder.DropTable(
+                name: "purchasingBills");
+
+            migrationBuilder.DropTable(
+                name: "sellingBills");
+
+            migrationBuilder.DropTable(
                 name: "Item");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "units");
 
             migrationBuilder.DropTable(
-                name: "Category");
-
-            migrationBuilder.DropTable(
-                name: "DistributedCompany");
-
-            migrationBuilder.DropTable(
-                name: "Stock");
+                name: "representers");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "OrderType");
+                name: "itemTypes");
+
+            migrationBuilder.DropTable(
+                name: "DistributedCompany");
 
             migrationBuilder.DropTable(
                 name: "TheManufacturer");

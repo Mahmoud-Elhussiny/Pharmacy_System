@@ -1,4 +1,5 @@
 ﻿
+using Pharmacy.Core.UserManagement;
 using Phone_Book.Application.Masseges;
 
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
@@ -7,6 +8,9 @@ namespace Pharmacy.WebAPI.Endpoint.UserManagment
     {
         public Create_UserEndPointResponse() { }
         public Create_UserEndPointResponse(Guid correlationId) : base(correlationId) { }
+
+        public UserManagementResponse UserManagmentResponse { get; set; }
+
 
     }
 }

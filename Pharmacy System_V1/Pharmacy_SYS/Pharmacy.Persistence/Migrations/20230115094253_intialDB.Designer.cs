@@ -12,8 +12,8 @@ using Pharmacy.Persistence.Context;
 namespace Pharmacy.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseService))]
-    [Migration("20230103085806_init")]
-    partial class init
+    [Migration("20230115094253_intialDB")]
+    partial class intialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -211,8 +211,8 @@ namespace Pharmacy.Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Picture")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -221,6 +221,7 @@ namespace Pharmacy.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -234,10 +235,19 @@ namespace Pharmacy.Persistence.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValueSql("('true')");
 
+                    b.Property<int?>("isAdmin")
+                        .HasColumnType("int");
+
                     b.Property<string>("lastName")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
+
+                    b.Property<DateTime?>("lastloginDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("timeCreated")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -252,7 +262,7 @@ namespace Pharmacy.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Category", b =>
+            modelBuilder.Entity("Pharmacy.domain.DataWarehouse", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -260,13 +270,38 @@ namespace Pharmacy.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("buyingPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("itemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("itembarcodeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("itemunitId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("sellingPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("timeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.HasIndex("itemId");
+
+                    b.HasIndex("itembarcodeId");
+
+                    b.HasIndex("itemunitId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("dataWarehouses");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.DistributedCompany", b =>
@@ -280,7 +315,11 @@ namespace Pharmacy.Persistence.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -298,40 +337,6 @@ namespace Pharmacy.Persistence.Migrations
                     b.ToTable("DistributedCompany");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Invoice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<decimal?>("Discount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Tax")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("orderId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("timeCreadted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("timeModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal?>("totalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("orderId")
-                        .IsUnique();
-
-                    b.ToTable("Invoice");
-                });
-
             modelBuilder.Entity("Pharmacy.domain.Item", b =>
                 {
                     b.Property<int>("Id")
@@ -347,47 +352,43 @@ namespace Pharmacy.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Num_Trade_Bar")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Quantity_Trade_Bar")
+                    b.Property<int?>("TheManufacturerId")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("buyingPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("categoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("chemicalName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("distributedId")
+                    b.Property<int?>("distributedId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("expireDate")
+                    b.Property<DateTime>("duration")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("manufactureId")
+                    b.Property<string>("itemNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("itemtypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("manufactureId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("molality")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("sellingPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("stockId")
-                        .HasColumnType("int");
+                    b.Property<string>("tradeNameAr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("timeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("timeModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("tradeName")
+                    b.Property<string>("tradeNameEn")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -395,18 +396,16 @@ namespace Pharmacy.Persistence.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("categoryId");
+                    b.HasIndex("TheManufacturerId");
 
                     b.HasIndex("distributedId");
 
-                    b.HasIndex("manufactureId");
-
-                    b.HasIndex("stockId");
+                    b.HasIndex("itemtypeId");
 
                     b.ToTable("Item");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Order", b =>
+            modelBuilder.Entity("Pharmacy.domain.ItemBarcode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -414,14 +413,123 @@ namespace Pharmacy.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("orderType")
+                    b.Property<string>("codeGenerated")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("itemId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("productionDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("itemId");
+
+                    b.ToTable("itemBarcodes");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.ItemType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("nameAr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("itemTypes");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.ItemUnit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("itemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("quantityContent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("unitId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("itemId");
+
+                    b.HasIndex("unitId");
+
+                    b.ToTable("itemUnits");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.PuchasingBillDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("itemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("purchasingbillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("unitId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("itemId");
+
+                    b.HasIndex("purchasingbillId");
+
+                    b.HasIndex("unitId");
+
+                    b.ToTable("puchasingBillDetails");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.PurchasingBill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("discount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("representerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("tax")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("timeCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("timeModified")
-                        .HasColumnType("datetime2");
+                    b.Property<decimal>("totalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("userId")
                         .IsRequired()
@@ -429,36 +537,14 @@ namespace Pharmacy.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("orderType")
-                        .IsUnique()
-                        .HasFilter("[orderType] IS NOT NULL");
+                    b.HasIndex("representerId");
 
                     b.HasIndex("userId");
 
-                    b.ToTable("Order");
+                    b.ToTable("purchasingBills");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.OrderItem", b =>
-                {
-                    b.Property<int>("orderId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
-
-                    b.Property<int>("itemId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("orderId", "itemId");
-
-                    b.HasIndex("itemId");
-
-                    b.ToTable("OrderItem");
-                });
-
-            modelBuilder.Entity("Pharmacy.domain.OrderType", b =>
+            modelBuilder.Entity("Pharmacy.domain.Representer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -466,16 +552,29 @@ namespace Pharmacy.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("distributed_Company_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderType");
+                    b.HasIndex("distributed_Company_Id");
+
+                    b.ToTable("representers");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Stock", b =>
+            modelBuilder.Entity("Pharmacy.domain.SellingBill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -483,15 +582,58 @@ namespace Pharmacy.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("discount")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("tax")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("timeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("totalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stock");
+                    b.HasIndex("userId");
+
+                    b.ToTable("sellingBills");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.SellingBillDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("itemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("sellingbillId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("unitId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("itemId");
+
+                    b.HasIndex("sellingbillId");
+
+                    b.HasIndex("unitId");
+
+                    b.ToTable("sellingBillDetails");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.TheManufacturer", b =>
@@ -506,7 +648,11 @@ namespace Pharmacy.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -518,6 +664,27 @@ namespace Pharmacy.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TheManufacturer");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.Unit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("nameAr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("units");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -571,6 +738,35 @@ namespace Pharmacy.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Pharmacy.domain.DataWarehouse", b =>
+                {
+                    b.HasOne("Pharmacy.domain.Item", "Item")
+                        .WithMany("DataWarehouses")
+                        .HasForeignKey("itemId");
+
+                    b.HasOne("Pharmacy.domain.ItemBarcode", "Barcode")
+                        .WithMany("DataWarehouses")
+                        .HasForeignKey("itembarcodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pharmacy.domain.ItemUnit", "ItemUnit")
+                        .WithMany("DataWarehouses")
+                        .HasForeignKey("itemunitId");
+
+                    b.HasOne("Pharmacy.domain.ApplicationUser", "ApplicationUser")
+                        .WithMany("DataWarehouses")
+                        .HasForeignKey("userId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Barcode");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("ItemUnit");
+                });
+
             modelBuilder.Entity("Pharmacy.domain.DistributedCompany", b =>
                 {
                     b.HasOne("Pharmacy.domain.TheManufacturer", "TheManufacturer")
@@ -580,129 +776,203 @@ namespace Pharmacy.Persistence.Migrations
                     b.Navigation("TheManufacturer");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Invoice", b =>
-                {
-                    b.HasOne("Pharmacy.domain.Order", "Order")
-                        .WithOne("Invoice")
-                        .HasForeignKey("Pharmacy.domain.Invoice", "orderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("Pharmacy.domain.Item", b =>
                 {
                     b.HasOne("Pharmacy.domain.ApplicationUser", null)
                         .WithMany("Items")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("Pharmacy.domain.Category", "Category")
+                    b.HasOne("Pharmacy.domain.TheManufacturer", "TheManufacturer")
                         .WithMany("Items")
-                        .HasForeignKey("categoryId");
+                        .HasForeignKey("TheManufacturerId");
 
                     b.HasOne("Pharmacy.domain.DistributedCompany", "DistributedCompany")
                         .WithMany("Items")
-                        .HasForeignKey("distributedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("distributedId");
 
-                    b.HasOne("Pharmacy.domain.TheManufacturer", "TheManufacturer")
+                    b.HasOne("Pharmacy.domain.ItemType", "ItemType")
                         .WithMany("Items")
-                        .HasForeignKey("manufactureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Pharmacy.domain.Stock", "Stock")
-                        .WithMany("Items")
-                        .HasForeignKey("stockId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
+                        .HasForeignKey("itemtypeId");
 
                     b.Navigation("DistributedCompany");
 
-                    b.Navigation("Stock");
+                    b.Navigation("ItemType");
 
                     b.Navigation("TheManufacturer");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Order", b =>
+            modelBuilder.Entity("Pharmacy.domain.ItemBarcode", b =>
                 {
-                    b.HasOne("Pharmacy.domain.OrderType", "OrderType")
-                        .WithOne("Order")
-                        .HasForeignKey("Pharmacy.domain.Order", "orderType");
+                    b.HasOne("Pharmacy.domain.Item", "Item")
+                        .WithMany("ItemBarcodes")
+                        .HasForeignKey("itemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.ItemUnit", b =>
+                {
+                    b.HasOne("Pharmacy.domain.Item", "Item")
+                        .WithMany("ItemUnits")
+                        .HasForeignKey("itemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pharmacy.domain.Unit", "Unit")
+                        .WithMany("ItemUnits")
+                        .HasForeignKey("unitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.PuchasingBillDetails", b =>
+                {
+                    b.HasOne("Pharmacy.domain.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("itemId");
+
+                    b.HasOne("Pharmacy.domain.PurchasingBill", "PurchasingBill")
+                        .WithMany("PuchasingBillDetails")
+                        .HasForeignKey("purchasingbillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pharmacy.domain.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("unitId");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("PurchasingBill");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.PurchasingBill", b =>
+                {
+                    b.HasOne("Pharmacy.domain.Representer", "Representer")
+                        .WithMany("PurchasingBill")
+                        .HasForeignKey("representerId");
 
                     b.HasOne("Pharmacy.domain.ApplicationUser", "ApplicationUser")
-                        .WithMany("Orders")
+                        .WithMany("PurchasingBills")
                         .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
 
-                    b.Navigation("OrderType");
+                    b.Navigation("Representer");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.OrderItem", b =>
+            modelBuilder.Entity("Pharmacy.domain.Representer", b =>
                 {
-                    b.HasOne("Pharmacy.domain.Item", "Item")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("itemId")
+                    b.HasOne("Pharmacy.domain.DistributedCompany", "DistributedCompany")
+                        .WithMany("Representers")
+                        .HasForeignKey("distributed_Company_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pharmacy.domain.Order", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("orderId")
+                    b.Navigation("DistributedCompany");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.SellingBill", b =>
+                {
+                    b.HasOne("Pharmacy.domain.ApplicationUser", "ApplicationUser")
+                        .WithMany("SellingBills")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.SellingBillDetails", b =>
+                {
+                    b.HasOne("Pharmacy.domain.Item", "Item")
+                        .WithMany("SellingBillDetails")
+                        .HasForeignKey("itemId");
+
+                    b.HasOne("Pharmacy.domain.SellingBill", "SellingBill")
+                        .WithMany("SellingBillDetails")
+                        .HasForeignKey("sellingbillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pharmacy.domain.Unit", "Unit")
+                        .WithMany("SellingBillDetails")
+                        .HasForeignKey("unitId");
 
                     b.Navigation("Item");
 
-                    b.Navigation("Order");
+                    b.Navigation("SellingBill");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.ApplicationUser", b =>
                 {
+                    b.Navigation("DataWarehouses");
+
                     b.Navigation("Items");
 
-                    b.Navigation("Orders");
-                });
+                    b.Navigation("PurchasingBills");
 
-            modelBuilder.Entity("Pharmacy.domain.Category", b =>
-                {
-                    b.Navigation("Items");
+                    b.Navigation("SellingBills");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.DistributedCompany", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("Representers");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.Item", b =>
                 {
-                    b.Navigation("OrderItems");
+                    b.Navigation("DataWarehouses");
+
+                    b.Navigation("ItemBarcodes");
+
+                    b.Navigation("ItemUnits");
+
+                    b.Navigation("SellingBillDetails");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Order", b =>
+            modelBuilder.Entity("Pharmacy.domain.ItemBarcode", b =>
                 {
-                    b.Navigation("Invoice")
-                        .IsRequired();
-
-                    b.Navigation("OrderItems");
+                    b.Navigation("DataWarehouses");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.OrderType", b =>
-                {
-                    b.Navigation("Order")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Pharmacy.domain.Stock", b =>
+            modelBuilder.Entity("Pharmacy.domain.ItemType", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.ItemUnit", b =>
+                {
+                    b.Navigation("DataWarehouses");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.PurchasingBill", b =>
+                {
+                    b.Navigation("PuchasingBillDetails");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.Representer", b =>
+                {
+                    b.Navigation("PurchasingBill");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.SellingBill", b =>
+                {
+                    b.Navigation("SellingBillDetails");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.TheManufacturer", b =>
@@ -710,6 +980,13 @@ namespace Pharmacy.Persistence.Migrations
                     b.Navigation("Items");
 
                     b.Navigation("distributedCompanies");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.Unit", b =>
+                {
+                    b.Navigation("ItemUnits");
+
+                    b.Navigation("SellingBillDetails");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,11 +10,12 @@ namespace Pharmacy.domain
     public class Representer
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string NameEn { get; set; } = null!;
+        public string NameAr { get; set; }=null!;
         [ForeignKey("DistributedCompany")]
         public int distributed_Company_Id { get; set; }
         public string phone { get; set; }
         public virtual DistributedCompany DistributedCompany { get; set; }
-        public ICollection<PurchasingBill> PurchasingBill { get; set; }
+        public ICollection<PurchasingBill>? PurchasingBill { get; set; }
     }
 }
