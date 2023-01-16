@@ -21,12 +21,16 @@ builder.Services.AddControllers();
 
 
 
+
 builder.Services.AddDbContext<DatabaseService>(option =>
 
     option.UseSqlServer(builder.Configuration.GetConnectionString("PharmacyConnection"))
 );
 
-builder.Services.AddTransient<IDatabaseService,DatabaseService>();
+
+//builder.Services.AddScoped<IDatabaseService,DatabaseService>();
+
+builder.Services.AddScoped<IDatabaseService>(provider => provider.GetService<DatabaseService>());
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -76,6 +80,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
 
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateAsyncScope())
+{
+    scope.ServiceProvider.GetRequiredService<IDatabaseService>();
+}
 
 
 

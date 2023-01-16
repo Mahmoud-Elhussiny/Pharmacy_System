@@ -1,6 +1,4 @@
-﻿
-
-using Pharmacy.Core.UserManagement;
+﻿using Pharmacy.Core.UserManagement;
 using Phone_Book.Application.Masseges;
 
 namespace Pharmacy.Application.Business.UserManagment.Command

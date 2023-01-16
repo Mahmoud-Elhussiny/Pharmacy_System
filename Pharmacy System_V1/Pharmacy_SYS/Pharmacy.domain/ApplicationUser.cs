@@ -27,11 +27,6 @@ namespace Pharmacy.domain
         [MinLength(11)]
         public string? Phone1 { get; set; } = "";
 
-        //[Required]
-        //[MaxLength(30)]
-        //[MinLength(6)]
-        //public string UserName { get; set; } = "";
-
         [MaxLength(11)]
         [MinLength(11)]
         public string? Phone2 { get; set; } = "";

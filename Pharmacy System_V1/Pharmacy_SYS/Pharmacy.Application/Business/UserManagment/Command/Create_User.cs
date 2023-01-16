@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Pharmacy.Application.Business.UserManagment.Query;
 using Pharmacy.Application.Contract;
 using Pharmacy.Core.UserManagement;
 using Pharmacy.domain;
-
+using System.Security.Claims;
 
 namespace Pharmacy.Application.Business.UserManagment.Command
 {
@@ -45,6 +46,9 @@ namespace Pharmacy.Application.Business.UserManagment.Command
                 return output;  
             }
 
+
+
+
             var ApplicationUser = new ApplicationUser
             {
                 firstName=request.firstName!,
@@ -54,10 +58,22 @@ namespace Pharmacy.Application.Business.UserManagment.Command
                 Phone2=request.Phone2,
                 Address=request.Address,
                 Email=request.Email,
+                timeCreated=DateTime.UtcNow,
                 isAdmin=request.isAdmin
             };
 
             var result = await _userManger.CreateAsync(ApplicationUser, request.Password);
+
+
+            await _userManger.AddClaimAsync(ApplicationUser, new Claim("FirstName", ApplicationUser.firstName));
+            await _userManger.AddClaimAsync(ApplicationUser, new Claim("LastName", ApplicationUser.lastName));
+            await _userManger.AddClaimAsync(ApplicationUser, new Claim("UserName", ApplicationUser.UserName));
+            await _userManger.AddClaimAsync(ApplicationUser, new Claim(ClaimTypes.Email, ApplicationUser.Email));
+            await _userManger.AddClaimAsync(ApplicationUser, new Claim("Id", ApplicationUser.Id));
+
+
+
+
 
             if (result.Succeeded)
             {

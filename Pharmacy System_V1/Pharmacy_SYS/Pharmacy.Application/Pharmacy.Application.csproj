@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Pharmacy.domain\Pharmacy.domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
 </Project>

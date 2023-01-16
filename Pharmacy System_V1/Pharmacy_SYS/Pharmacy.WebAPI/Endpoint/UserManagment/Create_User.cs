@@ -25,7 +25,7 @@ namespace Pharmacy.WebAPI.Endpoint.UserManagment
         }
         //[Authorize]
         [HttpPost(Create_UserEndPointRequest.Route)]
-        [SwaggerOperation(Summary = "Create_User", Description = "Create_User ", OperationId = "Pharmacy.WebAPI.Endpoint.UserManagment.Create_User", Tags = new[] { "Pharmacy.WebAPI.Endpoint.UserManagment" })]
+        [SwaggerOperation(Summary = "Create_User", Description = "Create_User ", OperationId = "Pharmacy.WebAPI.Endpoint.UserManagment.Create_User", Tags = new[] { "UserManagment" })]
         [Produces("application/json")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Create_UserEndPointResponse))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(Exception))]

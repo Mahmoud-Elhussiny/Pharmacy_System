@@ -25,9 +25,9 @@ namespace Pharmacy.WebAPI.Endpoint.UserManagment
 
         }
         //[ApiVersion("0.0")]
-       // [Authorize]
+        //[Authorize( Roles ="")]
         [HttpPost(LoginEndPointRequest.Route)]
-        [SwaggerOperation(Summary = "Login", Description = "Login ", OperationId = "Pharmacy.WebAPI.Endpoint.UserManagment.Login", Tags = new[] { "Pharmacy.WebAPI.Endpoint.UserManagment" })]
+        [SwaggerOperation(Summary = "Login", Description = "Login ", OperationId = "Pharmacy.WebAPI.Endpoint.UserManagment.Login", Tags = new[] { "UserManagment" })]
         [Produces("application/json")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(LoginEndPointResponse))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(Exception))]

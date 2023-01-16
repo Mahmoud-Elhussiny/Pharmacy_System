@@ -11,6 +11,7 @@ using Pharmacy.domain;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Transactions;
 
 namespace Pharmacy.Application.Business.UserManagment.Command
 {
@@ -56,14 +57,17 @@ namespace Pharmacy.Application.Business.UserManagment.Command
                 };
                 return output;
             }
-            var claims = new[]
-           {
-                new Claim("FirstName", user.firstName),
-                new Claim("LastName",user.lastName),
-                new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-            };
+           
+            
+            user.lastloginDate = DateTime.Now;
+
+            await _userManger.UpdateAsync(user);
+
+
+           
+            var claims =   await _userManger.GetClaimsAsync(user);
+
+
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthSettings:Key"]));
 
