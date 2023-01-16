@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pharmacy.Application\Pharmacy.Application.csproj" />
+    <ProjectReference Include="..\Pharmacy.Core\Pharmacy.Core.csproj" />
     <ProjectReference Include="..\Pharmacy.Persistence\Pharmacy.Persistence.csproj" />
   </ItemGroup>
 
