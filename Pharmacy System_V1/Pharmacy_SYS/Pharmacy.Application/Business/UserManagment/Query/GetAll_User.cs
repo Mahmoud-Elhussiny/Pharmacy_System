@@ -28,21 +28,21 @@ namespace Pharmacy.Application.Business.UserManagment.Query
         {
             _logger.LogInformation("Handling GetAll_User business logic");
             GetAll_UserHandlerOutput output = new GetAll_UserHandlerOutput(request.CorrelationId());
-            //var allusers = await _userManger.Users.Select(o=> new listUsers
-            //{
-            //    firstName = o.firstName,
-            //    lastName = o.lastName,
-            //    UserName = o.UserName,
-            //    Address = o.Address,
-            //    Email = o.Email,
-            //    Phone1 = o.Phone1,
-            //    Phone2 = o.Phone2,
-            //    lastloginDate = (DateTime)o.lastloginDate!,
-            //    timeCreated = (DateTime)o.timeCreated!,
+            var allusers = await _userManger.Users.Select(o => new listUsers
+            {
+                firstName = o.firstName,
+                lastName = o.lastName,
+                UserName = o.UserName,
+                Address = o.Address,
+                Email = o.Email,
+                Phone1 = o.Phone1,
+                Phone2 = o.Phone2,
+                lastloginDate = (DateTime)o.lastloginDate!,
+                timeCreated = (DateTime)o.timeCreated!,
 
-            //} ).ToListAsync();
+            }).ToListAsync();
 
-          // output._users = allusers;
+            output._users = allusers;
             return output;
         }
     }
