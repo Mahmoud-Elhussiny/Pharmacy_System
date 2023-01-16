@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Pharmacy.Application.Contract;
+using Pharmacy.Core.Services;
 using Pharmacy.Core.UserManagement;
 using Pharmacy.domain;
 
@@ -17,17 +18,20 @@ namespace Pharmacy.Application.Business.UserManagment.Command
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ILogger<Create_UserHandler> _logger;
         private UserManager<ApplicationUser> _userManger;
-        
+        private readonly IConfirmEmail _confirmEmail;
+
         public Create_UserHandler(ILogger<Create_UserHandler> logger,
             IDatabaseService databaseService,
             IHttpContextAccessor contextAccessor ,
-            UserManager<ApplicationUser> userManager
+            UserManager<ApplicationUser> userManager,
+            IConfirmEmail confirmEmail
             )
         {
             _logger = logger;
             _databaseService = databaseService;
             _contextAccessor = contextAccessor;
             _userManger = userManager;
+            _confirmEmail = confirmEmail;
         }
         public async Task<Create_UserHandlerOutput> Handle(Create_UserHandlerInput request, CancellationToken cancellationToken)
         {
@@ -67,8 +71,11 @@ namespace Pharmacy.Application.Business.UserManagment.Command
                     Message = "User Created Sucessfully",
                     IsSuccess = true,
                 };
+                await _confirmEmail.sendEmailAsync(request.Email, "new create user",
+                    "create new user", "<h1>New User Is Created In Pharmacy System</h1>");
                 return output;
             }
+
 
             output.UserManagmentResponse = new UserManagementResponse
             {
