@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Phone_Book.Application.DependencyInjectionApplication
+namespace Pharmacy.Application.DependencyInjectionApplication
 {
     public static class Dependency_InjectionApplication
     {

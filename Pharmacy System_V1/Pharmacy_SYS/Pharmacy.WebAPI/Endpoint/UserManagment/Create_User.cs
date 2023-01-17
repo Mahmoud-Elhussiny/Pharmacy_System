@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pharmacy.Application.Business.UserManagment.Command;
+using Pharmacy.Core.CustomException;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
@@ -28,7 +29,7 @@ namespace Pharmacy.WebAPI.Endpoint.UserManagment
         [SwaggerOperation(Summary = "Create_User", Description = "Create_User ", OperationId = "Pharmacy.WebAPI.Endpoint.UserManagment.Create_User", Tags = new[] { "UserManagment" })]
         [Produces("application/json")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Create_UserEndPointResponse))]
-        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(Exception))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(ExceptionOutput))]
         public override async Task<ActionResult<Create_UserEndPointResponse>> HandleAsync([FromBody] Create_UserEndPointRequest request, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Information : Starting Create_User handling");

@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Pharmacy.Application.Contract;
 using Pharmacy.domain;
 using Pharmacy.Persistence.Context;
-using Phone_Book.Application.DependencyInjectionApplication;
+using Pharmacy.Application.DependencyInjectionApplication;
 using System;
 using System.Reflection;
 using System.Text;
@@ -71,14 +71,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
     option.Password.RequireNonAlphanumeric = false;
     option.Password.RequireUppercase = false;
     option.Password.RequiredLength = 6;
-}).AddEntityFrameworkStores<DatabaseService>().AddDefaultTokenProviders(); 
-
-
-
-
-
-
-
+}).AddEntityFrameworkStores<DatabaseService>().AddDefaultTokenProviders();
+//builder.WebHost.UseKestrel(option => option.AddServerHeader = false);
 var app = builder.Build();
 
 using (var scope = app.Services.CreateAsyncScope())

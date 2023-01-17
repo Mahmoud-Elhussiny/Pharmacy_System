@@ -1,7 +1,6 @@
 ﻿
+using Pharmacy.Application.Masseges;
 using Pharmacy.Core.UserManagement;
-using Phone_Book.Application.Masseges;
-
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
 {
     public class Create_UserEndPointResponse : BaseResponse

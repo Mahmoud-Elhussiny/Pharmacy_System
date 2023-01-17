@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Phone_Book.Application.Masseges;
-
+using Pharmacy.Application.Masseges;
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
 {
     public class GetAll_UserEndPointRequest : BaseRequest

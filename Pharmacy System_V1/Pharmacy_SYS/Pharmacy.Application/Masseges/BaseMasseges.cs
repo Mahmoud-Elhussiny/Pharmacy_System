@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Phone_Book.Application.Masseges
+namespace Pharmacy.Application.Masseges
 {
     public abstract class BaseMasseges
     {

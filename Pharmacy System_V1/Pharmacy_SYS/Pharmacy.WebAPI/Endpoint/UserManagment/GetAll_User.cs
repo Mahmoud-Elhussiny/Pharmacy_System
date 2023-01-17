@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Pharmacy.Application.Business.UserManagment.Query;
+using Pharmacy.Core.CustomException;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
@@ -30,7 +31,7 @@ namespace Pharmacy.WebAPI.Endpoint.UserManagment
         [SwaggerOperation(Summary = "GetAll_User", Description = "GetAll_User ", OperationId = "Pharmacy.WebAPI.Endpoint.UserManagment.GetAll_User", Tags = new[] { "Pharmacy.WebAPI.Endpoint.UserManagment" })]
         [Produces("application/json")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GetAll_UserEndPointResponse))]
-        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(Exception))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(ExceptionOutput))]
         public override async Task<ActionResult<GetAll_UserEndPointResponse>> HandleAsync([FromQuery] GetAll_UserEndPointRequest request, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Information : Starting GetAll_User handling");

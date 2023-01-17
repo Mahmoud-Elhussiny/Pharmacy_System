@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Phone_Book.Application.Masseges;
-using System.ComponentModel.DataAnnotations;
-
+using Pharmacy.Application.Masseges;
 namespace Pharmacy.Application.Business.UserManagment.Command
 {
     public class LoginHandlerInput : BaseRequest, IRequest<LoginHandlerOutput>

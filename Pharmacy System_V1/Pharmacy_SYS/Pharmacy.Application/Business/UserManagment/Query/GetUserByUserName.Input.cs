@@ -1,6 +1,5 @@
 ﻿using MediatR;
-using Phone_Book.Application.Masseges;
-
+using Pharmacy.Application.Masseges;
 namespace Pharmacy.Application.Business.UserManagment.Query
 {
     public class GetUserByUserNameHandlerInput : BaseRequest, IRequest<GetUserByUserNameHandlerOutput>

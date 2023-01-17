@@ -1,6 +1,5 @@
-﻿using Pharmacy.Core.UserManagement;
-using Phone_Book.Application.Masseges;
-
+﻿using Pharmacy.Application.Masseges;
+using Pharmacy.Core.UserManagement;
 namespace Pharmacy.Application.Business.UserManagment.Command
 {
     public class Create_UserHandlerOutput : BaseResponse

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Pharmacy.Application.Business.UserManagment.Query;
+using Pharmacy.Core.CustomException;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
@@ -30,7 +31,7 @@ namespace Pharmacy.WebAPI.Endpoint.UserManagment
         [SwaggerOperation(Summary = "GetUserByUserName", Description = "GetUserByUserName ", OperationId = "Pharmacy.WebAPI.Endpoint.UserManagment.GetUserByUserName", Tags = new[] { "Pharmacy.WebAPI.Endpoint.UserManagment" })]
         [Produces("application/json")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GetUserByUserNameEndPointResponse))]
-        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(Exception))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(ExceptionOutput))]
         public override async Task<ActionResult<GetUserByUserNameEndPointResponse>> HandleAsync([FromQuery] GetUserByUserNameEndPointRequest request, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Information : Starting GetUserByUserName handling");
