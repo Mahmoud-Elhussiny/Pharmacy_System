@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Informatique.Base.Core.Messages;
-using Microsoft.AspNetCore.Mvc;
+using Pharmacy.Application.Business.UserManagment.Reset_Password;
 
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
 {

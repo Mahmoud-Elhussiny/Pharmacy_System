@@ -11,6 +11,7 @@ using Pharmacy.Application.DependencyInjectionApplication;
 using System;
 using System.Reflection;
 using System.Text;
+using Pharmacy.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,8 @@ builder.Services.AddScoped<IDatabaseService>(provider => provider.GetService<Dat
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<IMailService, SendGridMailService>();
+
 
 builder.Services.AddAuthentication(auth =>
 {
@@ -75,10 +78,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
 //builder.WebHost.UseKestrel(option => option.AddServerHeader = false);
 var app = builder.Build();
 
-using (var scope = app.Services.CreateAsyncScope())
-{
-    scope.ServiceProvider.GetRequiredService<IDatabaseService>();
-}
+//using (var scope = app.Services.CreateAsyncScope())
+//{
+//    scope.ServiceProvider.GetRequiredService<IDatabaseService>();
+//}
 
 
 

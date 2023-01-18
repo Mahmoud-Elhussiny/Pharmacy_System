@@ -19,10 +19,12 @@ namespace Pharmacy.Application.Business.UserManagment.Reset_Password
         private readonly ILogger<ResetPasswordHandler> _logger;
         private IConfiguration _configuration;
         private UserManager<ApplicationUser> _userManger;
+        private IMailService _mailService;
         public ResetPasswordHandler(ILogger<ResetPasswordHandler> logger,
             IDatabaseService databaseService,
             IHttpContextAccessor contextAccessor,
             IConfiguration configuration,
+            IMailService mailService,
             UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
@@ -30,6 +32,7 @@ namespace Pharmacy.Application.Business.UserManagment.Reset_Password
             _contextAccessor = contextAccessor;
             _configuration = configuration;
             _userManger = userManager;
+            _mailService = mailService;
 
     }
         public async Task<ResetPasswordHandlerOutput> Handle(ResetPasswordHandlerInput request, CancellationToken cancellationToken)

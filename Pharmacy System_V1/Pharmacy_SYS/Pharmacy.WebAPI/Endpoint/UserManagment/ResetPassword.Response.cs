@@ -1,4 +1,4 @@
-﻿using Informatique.Base.Core.Messages;
+﻿using Pharmacy.Application.Masseges;
 
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
 {
