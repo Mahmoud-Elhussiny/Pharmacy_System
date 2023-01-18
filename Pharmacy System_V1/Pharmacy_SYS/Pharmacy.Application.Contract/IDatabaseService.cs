@@ -10,7 +10,12 @@ namespace Pharmacy.Application.Contract
 {
     public interface IDatabaseService
     {
-        public DbSet<Unit> units { get; set; }
+
+        int DBSaveChanges();
+        Task<int> DBSaveChangesAsync(CancellationToken cancellationToken = default);
+
+
+        public DbSet<Units> units { get; set; }
         public DbSet<ApplicationUser> AppUser { get; set; }
         public DbSet<Representer> representers { get; set; }
         public DbSet<TheManufacturer> TheManufacturer { get; set; }

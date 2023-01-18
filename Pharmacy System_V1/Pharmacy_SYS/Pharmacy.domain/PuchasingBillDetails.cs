@@ -18,7 +18,7 @@ namespace Pharmacy.domain
         [ForeignKey("PurchasingBill")]
         public int purchasingbillId { get; set; }
         public virtual Item? Item { get; set; }
-        public virtual Unit? Unit { get; set; }
+        public virtual Units? Unit { get; set; }
         public virtual PurchasingBill PurchasingBill { get; set; }
     }
 }
