@@ -19,6 +19,6 @@ namespace Pharmacy.domain
         public int? unitId { get; set; }
         public virtual SellingBill SellingBill { get; set; }
         public virtual Item? Item { get; set; }
-        public virtual Unit? Unit { get; set; }
+        public virtual Units? Unit { get; set; }
     }
 }

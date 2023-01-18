@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Pharmacy.Persistence.Context
 {
-    public class DatabaseService : IdentityDbContext<ApplicationUser>, IDatabaseService
+    public partial class DatabaseService : IdentityDbContext<ApplicationUser>, IDatabaseService
     {
         public DatabaseService()
         {
@@ -31,6 +31,8 @@ namespace Pharmacy.Persistence.Context
             });
         }
 
+       
+
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
 
@@ -40,7 +42,7 @@ namespace Pharmacy.Persistence.Context
 
 
 
-        public DbSet<Unit> units { get; set; }
+        public DbSet<Units> units { get; set; }
         public DbSet<ApplicationUser> AppUser { get; set; }
         public DbSet<Representer> representers { get; set; }
         public DbSet<TheManufacturer> TheManufacturer { get; set; }

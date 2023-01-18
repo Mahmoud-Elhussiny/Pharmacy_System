@@ -15,7 +15,7 @@ namespace Pharmacy.domain
         [ForeignKey("Unit")]
         public int unitId { get; set; }
         public int quantityContent { get; set; }
-        public virtual Unit Unit { get; set; }
+        public virtual Units Unit { get; set; }
         public virtual Item Item { get; set; }  
         public virtual ICollection<DataWarehouse>? DataWarehouses { get; set; }
 
