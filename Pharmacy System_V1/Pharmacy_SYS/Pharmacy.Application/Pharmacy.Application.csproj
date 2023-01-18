@@ -28,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Business\Crud_DistributedCompany\" />
+    <Folder Include="Business\Crud_TheManufacturer\Command\" />
+    <Folder Include="Business\Crud_TheManufacturer\Query\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
 
