@@ -12,6 +12,8 @@ using System;
 using System.Reflection;
 using System.Text;
 using Pharmacy.Core.Services;
+using Microsoft.AspNetCore.Diagnostics;
+using Pharmacy.Core.CustomException;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -91,6 +93,33 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+app.UseExceptionHandler(delegate (IApplicationBuilder appError)
+{
+    appError.Run(async delegate (HttpContext context)
+    {
+        context.Response.ContentType = "application/json";
+        IExceptionHandlerFeature contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+        if (contextFeature != null)
+        {
+            context.Response.StatusCode = 400;
+            Exception error = contextFeature.Error;
+            WebApiException? except = error as WebApiException;
+            if (except != null)
+            {
+                context.Response.Headers.Append("EXCEPTION", except.ToString());
+                await context.Response.WriteAsync(except.ToString());
+            }
+            else
+            {
+                WebApiException exception = new WebApiException(contextFeature.Error, WebApiExceptionSource.GeneralException, "internal_server_error");
+                context.Response.Headers.Append("EXCEPTION", exception.ToString());
+                await context.Response.WriteAsync(exception.ToString());
+            }
+        }
+    });
+});
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
