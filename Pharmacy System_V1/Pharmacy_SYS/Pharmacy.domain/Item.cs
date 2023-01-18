@@ -16,7 +16,7 @@ namespace Pharmacy.domain
         public string tradeNameAr { get; set; } = "";
         public string chemicalName { get; set; } = "";
         public string Code { get; set; } = null!;
-        public string itemNo { get; set; } = null!;
+        public string batchNo { get; set; } = null!;
         public int? molality { get; set; }
         public DateTime duration { get; set; }
         public decimal? buyingPrice { get; set; }
