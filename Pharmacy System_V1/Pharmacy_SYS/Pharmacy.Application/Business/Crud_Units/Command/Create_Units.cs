@@ -6,7 +6,7 @@ using Pharmacy.Application.Contract;
 using Pharmacy.Core.CustomException;
 using Pharmacy.domain;
 
-namespace Pharmacy.Application.Business.Crud_Units
+namespace Pharmacy.Application.Business.Crud_Units.Command
 {
     public class Create_UnitsHandler : IRequestHandler<Create_UnitsHandlerInput, Create_UnitsHandlerOutput>
     {
@@ -29,9 +29,10 @@ namespace Pharmacy.Application.Business.Crud_Units
             newunit.nameEn = request.nameEn;
             newunit.nameAr = request.nameAr;
 
-            await _databaseService.units.AddAsync(newunit,cancellationToken);
 
-            if(await _databaseService.DBSaveChangesAsync(cancellationToken) == 0)
+            await _databaseService.units.AddAsync(newunit, cancellationToken);
+
+            if (await _databaseService.DBSaveChangesAsync(cancellationToken) == 0)
             {
                 throw new WebApiException("Can't Saving Data");
             }

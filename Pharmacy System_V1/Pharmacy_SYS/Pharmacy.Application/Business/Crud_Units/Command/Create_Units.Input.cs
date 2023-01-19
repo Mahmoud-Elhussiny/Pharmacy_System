@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Pharmacy.Application.Masseges;
 
-namespace Pharmacy.Application.Business.Crud_Units
+namespace Pharmacy.Application.Business.Crud_Units.Command
 {
     public class Create_UnitsHandlerInput : BaseRequest, IRequest<Create_UnitsHandlerOutput>
     {
