@@ -12,14 +12,14 @@ using Pharmacy.Persistence.Context;
 namespace Pharmacy.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseService))]
-    [Migration("20230115094253_intialDB")]
-    partial class intialDB
+    [Migration("20230119090531_initalDB")]
+    partial class initalDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -221,7 +221,6 @@ namespace Pharmacy.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -260,6 +259,27 @@ namespace Pharmacy.Persistence.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.Calender", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Calender");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.DataWarehouse", b =>
@@ -352,8 +372,9 @@ namespace Pharmacy.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TheManufacturerId")
-                        .HasColumnType("int");
+                    b.Property<string>("batchNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("buyingPrice")
                         .HasColumnType("decimal(18,2)");
@@ -362,15 +383,14 @@ namespace Pharmacy.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("clenderId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("distributedId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("duration")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("itemNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("duration")
+                        .HasColumnType("int");
 
                     b.Property<int?>("itemtypeId")
                         .HasColumnType("int");
@@ -396,11 +416,13 @@ namespace Pharmacy.Persistence.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("TheManufacturerId");
+                    b.HasIndex("clenderId");
 
                     b.HasIndex("distributedId");
 
                     b.HasIndex("itemtypeId");
+
+                    b.HasIndex("manufactureId");
 
                     b.ToTable("Item");
                 });
@@ -516,6 +538,9 @@ namespace Pharmacy.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("UnitsId")
+                        .HasColumnType("int");
+
                     b.Property<int>("discount")
                         .HasColumnType("int");
 
@@ -536,6 +561,8 @@ namespace Pharmacy.Persistence.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UnitsId");
 
                     b.HasIndex("representerId");
 
@@ -666,7 +693,7 @@ namespace Pharmacy.Persistence.Migrations
                     b.ToTable("TheManufacturer");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Unit", b =>
+            modelBuilder.Entity("Pharmacy.domain.Units", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -782,9 +809,9 @@ namespace Pharmacy.Persistence.Migrations
                         .WithMany("Items")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("Pharmacy.domain.TheManufacturer", "TheManufacturer")
-                        .WithMany("Items")
-                        .HasForeignKey("TheManufacturerId");
+                    b.HasOne("Pharmacy.domain.Calender", "Calender")
+                        .WithMany()
+                        .HasForeignKey("clenderId");
 
                     b.HasOne("Pharmacy.domain.DistributedCompany", "DistributedCompany")
                         .WithMany("Items")
@@ -793,6 +820,12 @@ namespace Pharmacy.Persistence.Migrations
                     b.HasOne("Pharmacy.domain.ItemType", "ItemType")
                         .WithMany("Items")
                         .HasForeignKey("itemtypeId");
+
+                    b.HasOne("Pharmacy.domain.TheManufacturer", "TheManufacturer")
+                        .WithMany("Items")
+                        .HasForeignKey("manufactureId");
+
+                    b.Navigation("Calender");
 
                     b.Navigation("DistributedCompany");
 
@@ -820,7 +853,7 @@ namespace Pharmacy.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pharmacy.domain.Unit", "Unit")
+                    b.HasOne("Pharmacy.domain.Units", "Unit")
                         .WithMany("ItemUnits")
                         .HasForeignKey("unitId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -843,7 +876,7 @@ namespace Pharmacy.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pharmacy.domain.Unit", "Unit")
+                    b.HasOne("Pharmacy.domain.Units", "Unit")
                         .WithMany()
                         .HasForeignKey("unitId");
 
@@ -856,6 +889,10 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.PurchasingBill", b =>
                 {
+                    b.HasOne("Pharmacy.domain.Units", null)
+                        .WithMany("PurchasingBills")
+                        .HasForeignKey("UnitsId");
+
                     b.HasOne("Pharmacy.domain.Representer", "Representer")
                         .WithMany("PurchasingBill")
                         .HasForeignKey("representerId");
@@ -905,7 +942,7 @@ namespace Pharmacy.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pharmacy.domain.Unit", "Unit")
+                    b.HasOne("Pharmacy.domain.Units", "Unit")
                         .WithMany("SellingBillDetails")
                         .HasForeignKey("unitId");
 
@@ -982,9 +1019,11 @@ namespace Pharmacy.Persistence.Migrations
                     b.Navigation("distributedCompanies");
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Unit", b =>
+            modelBuilder.Entity("Pharmacy.domain.Units", b =>
                 {
                     b.Navigation("ItemUnits");
+
+                    b.Navigation("PurchasingBills");
 
                     b.Navigation("SellingBillDetails");
                 });

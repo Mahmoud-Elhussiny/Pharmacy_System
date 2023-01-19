@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pharmacy.Persistence.Migrations
 {
-    public partial class intialDB : Migration
+    public partial class initalDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,6 @@ namespace Pharmacy.Persistence.Migrations
                     firstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     lastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Phone1 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Phone2 = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     isAdmin = table.Column<int>(type: "int", nullable: true),
@@ -39,6 +38,7 @@ namespace Pharmacy.Persistence.Migrations
                     timeCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "('true')"),
                     Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -56,6 +56,20 @@ namespace Pharmacy.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Calender",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Calender", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -263,15 +277,15 @@ namespace Pharmacy.Persistence.Migrations
                     tradeNameAr = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     chemicalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    itemNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    batchNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     molality = table.Column<int>(type: "int", nullable: true),
-                    duration = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    duration = table.Column<int>(type: "int", nullable: false),
                     buyingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     sellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     itemtypeId = table.Column<int>(type: "int", nullable: true),
                     manufactureId = table.Column<int>(type: "int", nullable: true),
                     distributedId = table.Column<int>(type: "int", nullable: true),
-                    TheManufacturerId = table.Column<int>(type: "int", nullable: true),
+                    clenderId = table.Column<int>(type: "int", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -281,6 +295,11 @@ namespace Pharmacy.Persistence.Migrations
                         name: "FK_Item_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Item_Calender_clenderId",
+                        column: x => x.clenderId,
+                        principalTable: "Calender",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Item_DistributedCompany_distributedId",
@@ -293,8 +312,8 @@ namespace Pharmacy.Persistence.Migrations
                         principalTable: "itemTypes",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Item_TheManufacturer_TheManufacturerId",
-                        column: x => x.TheManufacturerId,
+                        name: "FK_Item_TheManufacturer_manufactureId",
+                        column: x => x.manufactureId,
                         principalTable: "TheManufacturer",
                         principalColumn: "Id");
                 });
@@ -412,7 +431,8 @@ namespace Pharmacy.Persistence.Migrations
                     tax = table.Column<int>(type: "int", nullable: false),
                     timeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    representerId = table.Column<int>(type: "int", nullable: true)
+                    representerId = table.Column<int>(type: "int", nullable: true),
+                    UnitsId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -427,6 +447,11 @@ namespace Pharmacy.Persistence.Migrations
                         name: "FK_purchasingBills_representers_representerId",
                         column: x => x.representerId,
                         principalTable: "representers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_purchasingBills_units_UnitsId",
+                        column: x => x.UnitsId,
+                        principalTable: "units",
                         principalColumn: "Id");
                 });
 
@@ -572,6 +597,11 @@ namespace Pharmacy.Persistence.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Item_clenderId",
+                table: "Item",
+                column: "clenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Item_distributedId",
                 table: "Item",
                 column: "distributedId");
@@ -582,9 +612,9 @@ namespace Pharmacy.Persistence.Migrations
                 column: "itemtypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Item_TheManufacturerId",
+                name: "IX_Item_manufactureId",
                 table: "Item",
-                column: "TheManufacturerId");
+                column: "manufactureId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_itemBarcodes_itemId",
@@ -620,6 +650,11 @@ namespace Pharmacy.Persistence.Migrations
                 name: "IX_purchasingBills_representerId",
                 table: "purchasingBills",
                 column: "representerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_purchasingBills_UnitsId",
+                table: "purchasingBills",
+                column: "UnitsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_purchasingBills_userId",
@@ -697,13 +732,16 @@ namespace Pharmacy.Persistence.Migrations
                 name: "Item");
 
             migrationBuilder.DropTable(
-                name: "units");
-
-            migrationBuilder.DropTable(
                 name: "representers");
 
             migrationBuilder.DropTable(
+                name: "units");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Calender");
 
             migrationBuilder.DropTable(
                 name: "itemTypes");
