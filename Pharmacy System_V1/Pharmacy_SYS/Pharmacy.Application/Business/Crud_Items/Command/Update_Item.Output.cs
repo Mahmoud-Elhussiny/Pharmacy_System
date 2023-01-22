@@ -1,0 +1,11 @@
+﻿using Pharmacy.Application.Masseges;
+
+namespace Pharmacy.Application.Business.Crud_Items.Command
+{
+    public class Update_ItemHandlerOutput : BaseResponse
+    {
+        public Update_ItemHandlerOutput() { }
+        public Update_ItemHandlerOutput(Guid correlationId) : base(correlationId) { }
+        public string Message { get; set; }
+    }
+}
