@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Pharmacy.Application.Business.Crud_Units;
+using Pharmacy.Application.Business.Crud_Units.Command;
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_Units
 {

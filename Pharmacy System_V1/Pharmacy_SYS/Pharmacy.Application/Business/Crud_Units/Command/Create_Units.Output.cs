@@ -1,6 +1,6 @@
 ﻿using Pharmacy.Application.Masseges;
 
-namespace Pharmacy.Application.Business.Crud_Units
+namespace Pharmacy.Application.Business.Crud_Units.Command
 {
     public class Create_UnitsHandlerOutput : BaseResponse
     {
