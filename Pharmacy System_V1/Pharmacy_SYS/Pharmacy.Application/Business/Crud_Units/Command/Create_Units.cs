@@ -26,8 +26,8 @@ namespace Pharmacy.Application.Business.Crud_Units.Command
 
             var newunit = new Units();
 
-            newunit.nameEn = request.nameEn;
-            newunit.nameAr = request.nameAr;
+            newunit.nameEn = request.nameEn.Trim();
+            newunit.nameAr = request.nameAr.Trim();
 
 
             await _databaseService.units.AddAsync(newunit, cancellationToken);

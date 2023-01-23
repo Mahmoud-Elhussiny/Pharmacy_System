@@ -25,8 +25,8 @@ namespace Pharmacy.Application.Business.Crud_ItemTypes.Command
             Create_ItemTypeHandlerOutput output = new Create_ItemTypeHandlerOutput(request.CorrelationId());
             var newitmType = new ItemType();
 
-            newitmType.nameEn = request.nameEn;
-            newitmType.nameAr = request.nameAr;
+            newitmType.nameEn = request.nameEn.Trim();
+            newitmType.nameAr = request.nameAr.Trim();
 
             await _databaseService.itemTypes.AddAsync(newitmType, cancellationToken);
 

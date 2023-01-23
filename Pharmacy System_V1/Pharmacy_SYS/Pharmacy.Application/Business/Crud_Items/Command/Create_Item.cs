@@ -26,11 +26,11 @@ namespace Pharmacy.Application.Business.Crud_Items.Command
 
             var newItem = new Item();
 
-            newItem.tradeNameEn = request.tradeNameEn;
-            newItem.tradeNameAr = request.tradeNameAr;
-            newItem.chemicalName = request.chemicalName;
-            newItem.Code = request.Code;
-            newItem.batchNo = request.batchNo;
+            newItem.tradeNameEn = request.tradeNameEn.Trim();
+            newItem.tradeNameAr = request.tradeNameAr.Trim();
+            newItem.chemicalName = request.chemicalName.Trim();
+            newItem.Code = request.Code.Trim();
+            newItem.batchNo = request.batchNo.Trim();
             newItem.molality = request.molality;
             newItem.duration = request.duration;
             newItem.buyingPrice = request.buyingPrice;
