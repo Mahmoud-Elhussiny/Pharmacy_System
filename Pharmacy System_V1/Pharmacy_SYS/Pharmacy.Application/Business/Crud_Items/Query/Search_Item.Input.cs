@@ -1,13 +1,12 @@
 ﻿using MediatR;
 using Pharmacy.Application.Masseges;
 
-namespace Pharmacy.Application.Business.Crud_Items.Command
+namespace Pharmacy.Application.Business.Crud_Items.Query
 {
-    public class Update_ItemHandlerInput : BaseRequest, IRequest<Update_ItemHandlerOutput>
+    public class Search_ItemHandlerInput : BaseRequest, IRequest<Search_ItemHandlerOutput>
     {
-        public Update_ItemHandlerInput() { }
-        public Update_ItemHandlerInput(Guid correlationId) : base(correlationId) { }
-        public int Id { get; set; }
+        public Search_ItemHandlerInput() { }
+        public Search_ItemHandlerInput(Guid correlationId) : base(correlationId) { }
         public string? tradeNameEn { get; set; }
         public string? tradeNameAr { get; set; }
         public string? chemicalName { get; set; }
@@ -21,5 +20,6 @@ namespace Pharmacy.Application.Business.Crud_Items.Command
         public int? manufactureId { get; set; }
         public int? distributedId { get; set; }
         public int? clenderId { get; set; }
+
     }
 }

@@ -32,11 +32,11 @@ namespace Pharmacy.Application.Business.Crud_Units.Command
 
             if (!String.IsNullOrEmpty(request.nameEn))
             {
-                unitupdated.nameEn = request.nameEn;
+                unitupdated.nameEn = request.nameEn.Trim();
             }
             if (!String.IsNullOrEmpty(request.nameAr))
             {
-                unitupdated.nameAr = request.nameAr;
+                unitupdated.nameAr = request.nameAr.Trim();
             }
 
             _databaseService.units.Update(unitupdated);

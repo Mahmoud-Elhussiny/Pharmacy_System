@@ -26,7 +26,7 @@ namespace Pharmacy.Application.Business.Crud_Items.Query
 
             if (itemSelected == null)
                 throw new WebApiException("this Item Is Not Found");
-
+            output.Id = itemSelected.Id;
             output.tradeNameEn = itemSelected.tradeNameEn;
             output.tradeNameAr = itemSelected.tradeNameAr;
             output.chemicalName = itemSelected.chemicalName;

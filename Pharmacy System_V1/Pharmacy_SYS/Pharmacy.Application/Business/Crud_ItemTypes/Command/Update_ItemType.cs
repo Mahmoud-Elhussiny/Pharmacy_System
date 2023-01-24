@@ -31,9 +31,9 @@ namespace Pharmacy.Application.Business.Crud_ItemTypes.Command
             }
 
             if (!String.IsNullOrEmpty(request.nameEn))
-                itemtypeUpdated.nameEn = request.nameEn;
+                itemtypeUpdated.nameEn = request.nameEn.Trim();
             if (!String.IsNullOrEmpty(request.nameAr))
-                itemtypeUpdated.nameAr = request.nameAr;
+                itemtypeUpdated.nameAr = request.nameAr.Trim();
 
             _databaseService.itemTypes.Update(itemtypeUpdated);
 
