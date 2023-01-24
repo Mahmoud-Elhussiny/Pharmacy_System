@@ -3,7 +3,7 @@ using Pharmacy.Application.Masseges;
 using Pharmacy.Core.UserManagement;
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
 {
-    public class Create_UserEndPointResponse : BaseResponse
+    public class Create_UserEndPointResponse : BaseRessponse
     {
         public Create_UserEndPointResponse() { }
         public Create_UserEndPointResponse(Guid correlationId) : base(correlationId) { }

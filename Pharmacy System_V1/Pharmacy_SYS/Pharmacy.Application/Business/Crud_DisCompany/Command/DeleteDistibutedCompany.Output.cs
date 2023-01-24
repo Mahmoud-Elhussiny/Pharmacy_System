@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_DisCompany.Command
 {
-    public class DeleteDistibutedCompanyHandlerOutput : BaseResponse
+    public class DeleteDistibutedCompanyHandlerOutput : BaseRessponse
     {
         public DeleteDistibutedCompanyHandlerOutput() { }
         public DeleteDistibutedCompanyHandlerOutput(Guid correlationId) : base(correlationId) { }

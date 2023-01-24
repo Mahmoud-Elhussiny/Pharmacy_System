@@ -2,7 +2,7 @@
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_DisCompany
 {
-    public class CreateDistrbutedCompanyEndPointResponse : BaseResponse
+    public class CreateDistrbutedCompanyEndPointResponse : BaseRessponse
     {
         public CreateDistrbutedCompanyEndPointResponse() { }
         public CreateDistrbutedCompanyEndPointResponse(Guid correlationId) : base(correlationId) { }

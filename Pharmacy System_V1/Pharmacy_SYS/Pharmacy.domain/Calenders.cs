@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pharmacy.domain
 {
-    public class Calender
+    public class Calenders
     {
         public int Id { get; set; }
         public string NameEn { get; set; }

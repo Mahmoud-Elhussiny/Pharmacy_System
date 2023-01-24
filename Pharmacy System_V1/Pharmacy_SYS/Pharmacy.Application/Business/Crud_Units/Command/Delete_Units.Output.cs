@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_Units.Command
 {
-    public class Delete_UnitsHandlerOutput : BaseResponse
+    public class Delete_UnitsHandlerOutput : BaseRessponse
     {
         public Delete_UnitsHandlerOutput() { }
         public Delete_UnitsHandlerOutput(Guid correlationId) : base(correlationId) { }

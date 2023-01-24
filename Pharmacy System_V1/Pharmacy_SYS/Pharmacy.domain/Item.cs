@@ -29,7 +29,7 @@ namespace Pharmacy.domain
         public int? distributedId { get; set; }
         [ForeignKey("Calender")]
         public int? clenderId { get; set; }
-        public virtual Calender? Calender { get; set; } 
+        public virtual Calenders? Calender { get; set; } 
         public virtual ItemType? ItemType { get; set; }
         public virtual TheManufacturer? TheManufacturer { get; set; }
         public virtual DistributedCompany? DistributedCompany { get; set; }

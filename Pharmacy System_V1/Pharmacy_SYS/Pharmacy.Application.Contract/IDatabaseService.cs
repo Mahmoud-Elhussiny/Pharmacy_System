@@ -29,5 +29,6 @@ namespace Pharmacy.Application.Contract
         public DbSet<PuchasingBillDetails> puchasingBillDetails { get; set; }
         public DbSet<ItemBarcode> itemBarcodes { get; set; }
         public DbSet<DataWarehouse> dataWarehouses { get; set; }
+        public DbSet<Calenders> Calenders{ get; set; }
     }
 }

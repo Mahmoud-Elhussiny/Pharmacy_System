@@ -259,7 +259,7 @@ namespace Pharmacy.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Pharmacy.domain.Calender", b =>
+            modelBuilder.Entity("Pharmacy.domain.Calenders", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -277,7 +277,7 @@ namespace Pharmacy.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Calender");
+                    b.ToTable("Calenders");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.DataWarehouse", b =>
@@ -807,7 +807,7 @@ namespace Pharmacy.Persistence.Migrations
                         .WithMany("Items")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("Pharmacy.domain.Calender", "Calender")
+                    b.HasOne("Pharmacy.domain.Calenders", "Calender")
                         .WithMany()
                         .HasForeignKey("clenderId");
 

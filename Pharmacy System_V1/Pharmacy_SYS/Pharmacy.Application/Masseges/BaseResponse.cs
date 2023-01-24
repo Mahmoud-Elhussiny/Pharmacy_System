@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Pharmacy.Application.Masseges
 {
-    public abstract class BaseResponse:BaseMasseges
+    public abstract class BaseRessponse:BaseMasseges
     {
-        public BaseResponse() {  }
-        public BaseResponse(Guid correlationId):base()
+        public BaseRessponse() {  }
+        public BaseRessponse(Guid correlationId):base()
         {
             _correlationId = correlationId;
         }

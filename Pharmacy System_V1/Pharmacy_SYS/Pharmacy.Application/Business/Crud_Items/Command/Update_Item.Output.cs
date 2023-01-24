@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_Items.Command
 {
-    public class Update_ItemHandlerOutput : BaseResponse
+    public class Update_ItemHandlerOutput : BaseRessponse
     {
         public Update_ItemHandlerOutput() { }
         public Update_ItemHandlerOutput(Guid correlationId) : base(correlationId) { }

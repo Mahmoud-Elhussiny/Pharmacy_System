@@ -3,7 +3,7 @@ using Pharmacy.Core.UserManagement;
 
 namespace Pharmacy.Application.Business.UserManagment.Reset_Password
 {
-    public class ForgetPasswordHandlerOutput : BaseResponse
+    public class ForgetPasswordHandlerOutput : BaseRessponse
     {
         public ForgetPasswordHandlerOutput() { }
         public ForgetPasswordHandlerOutput(Guid correlationId) : base(correlationId) { }

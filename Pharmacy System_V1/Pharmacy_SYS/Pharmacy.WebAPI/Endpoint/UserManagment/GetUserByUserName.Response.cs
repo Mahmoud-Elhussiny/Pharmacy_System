@@ -1,7 +1,7 @@
 ﻿using Pharmacy.Application.Masseges;
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
 {
-    public class GetUserByUserNameEndPointResponse : BaseResponse
+    public class GetUserByUserNameEndPointResponse : BaseRessponse
     {
         public GetUserByUserNameEndPointResponse() { }
         public GetUserByUserNameEndPointResponse(Guid correlationId) : base(correlationId) { }

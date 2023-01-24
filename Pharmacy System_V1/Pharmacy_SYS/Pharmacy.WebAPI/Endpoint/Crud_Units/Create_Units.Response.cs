@@ -2,7 +2,7 @@
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_Units
 {
-    public class Create_UnitsEndPointResponse : BaseResponse
+    public class Create_UnitsEndPointResponse : BaseRessponse
     {
         public Create_UnitsEndPointResponse() { }
         public Create_UnitsEndPointResponse(Guid correlationId) : base(correlationId) { }

@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.UserManagment.Query
 {
-    public class SearchForUserHandlerOutput : BaseResponse
+    public class SearchForUserHandlerOutput : BaseRessponse
     {
         public SearchForUserHandlerOutput() { }
         public SearchForUserHandlerOutput(Guid correlationId) : base(correlationId) { }

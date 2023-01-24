@@ -3,7 +3,7 @@ using Pharmacy.Application.Masseges;
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_Units
 {
-    public class Delete_UnitsEndPointResponse : BaseResponse
+    public class Delete_UnitsEndPointResponse : BaseRessponse
     {
         public Delete_UnitsEndPointResponse() { }
         public Delete_UnitsEndPointResponse(Guid correlationId) : base(correlationId) { }

@@ -2,7 +2,7 @@
 using Pharmacy.Core.UserManagement;
 namespace Pharmacy.Application.Business.UserManagment.Command
 {
-    public class LoginHandlerOutput : BaseResponse
+    public class LoginHandlerOutput : BaseRessponse
     {
         public LoginHandlerOutput() { }
         public LoginHandlerOutput(Guid correlationId) : base(correlationId) { }

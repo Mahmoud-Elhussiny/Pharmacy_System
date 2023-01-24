@@ -4,7 +4,7 @@ using Pharmacy.Application.Masseges;
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_Units
 {
-    public class Search_UnitEndPointResponse : BaseResponse
+    public class Search_UnitEndPointResponse : BaseRessponse
     {
         public Search_UnitEndPointResponse() { }
         public Search_UnitEndPointResponse(Guid correlationId) : base(correlationId) { }

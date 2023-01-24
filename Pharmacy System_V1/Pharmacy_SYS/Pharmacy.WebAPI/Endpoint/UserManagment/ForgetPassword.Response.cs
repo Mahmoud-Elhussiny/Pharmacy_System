@@ -3,7 +3,7 @@ using Pharmacy.Core.UserManagement;
 
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
 {
-    public class ForgetPasswordEndPointResponse : BaseResponse
+    public class ForgetPasswordEndPointResponse : BaseRessponse
     {
         public ForgetPasswordEndPointResponse() { }
         public ForgetPasswordEndPointResponse(Guid correlationId) : base(correlationId) { }

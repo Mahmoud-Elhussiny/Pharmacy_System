@@ -4,7 +4,7 @@ using Pharmacy.Application.Masseges;
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_DisCompany
 {
-    public class DeleteDistibutedCompanyEndPointResponse : BaseResponse
+    public class DeleteDistibutedCompanyEndPointResponse : BaseRessponse
     {
         public DeleteDistibutedCompanyEndPointResponse() { }
         public DeleteDistibutedCompanyEndPointResponse(Guid correlationId) : base(correlationId) { }

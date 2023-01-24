@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pharmacy.Application.Business.UserManagment.Query
 {
-    public class GetAll_UserHandlerOutput : BaseResponse
+    public class GetAll_UserHandlerOutput : BaseRessponse
     {
         public GetAll_UserHandlerOutput() { }
         public GetAll_UserHandlerOutput(Guid correlationId) : base(correlationId) { }
