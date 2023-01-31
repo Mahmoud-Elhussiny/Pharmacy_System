@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,11 @@ namespace Pharmacy.Persistence.Context
         public async Task<int> DBSaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await SaveChangesAsync(acceptAllChangesOnSuccess: true, cancellationToken);
+        }
+
+        public IDbContextTransaction DbBeginTransaction(System.Data.IsolationLevel isolationLevel)
+        {
+            return this.Database.BeginTransaction(isolationLevel);
         }
     }
 }

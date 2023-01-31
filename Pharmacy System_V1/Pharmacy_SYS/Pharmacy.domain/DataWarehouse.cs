@@ -20,12 +20,9 @@ namespace Pharmacy.domain
         [ForeignKey("ItemUnit")]
         public int? itemunitId { get; set; }
 
-        [ForeignKey("PurchasingBill")]
-        public int? PurchasingBillId { get; set; }
-
-        [ForeignKey("SellingBill")]
-        public int? SellingBillId { get; set; }
-
+        [ForeignKey("OperationType")]
+        public int? operationTypeId { get; set; }
+        public int referanceoperationId { get; set; }
         public bool visable { get; set; }
 
 
@@ -38,9 +35,8 @@ namespace Pharmacy.domain
         public virtual ItemUnit? ItemUnit { get; set; }  
         public virtual ItemBarcode? Barcode { get; set; }
         public virtual ApplicationUser? ApplicationUser { get; set; }
-        public virtual PurchasingBill? PurchasingBill { get; set; }
-        public virtual SellingBill? SellingBill { get; set; }
-
+        public virtual OperationType? OperationType { get; set; }
+      
 
 
 

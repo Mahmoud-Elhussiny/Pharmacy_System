@@ -22,8 +22,7 @@ namespace Pharmacy.domain
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual ICollection<PuchasingBillDetails> PuchasingBillDetails { get; set; }
-        public virtual ICollection<DataWarehouse> DataWarehouses { get; set; }
-
+        
 
 
     }

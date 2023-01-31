@@ -49,8 +49,8 @@ namespace Pharmacy.Application.Business.Crud_Items.Command
                 itemUpdated.itemtypeId = request.itemtypeId;
             if (request.manufactureId.HasValue)
                 itemUpdated.manufactureId = request.manufactureId;
-            if(request.distributedId.HasValue)
-                itemUpdated.distributedId = request.distributedId;
+            //if(request.distributedId.HasValue)
+            //    itemUpdated.distributedId = request.distributedId;
             if(request.clenderId.HasValue)
                 itemUpdated.clenderId = request.clenderId; 
 

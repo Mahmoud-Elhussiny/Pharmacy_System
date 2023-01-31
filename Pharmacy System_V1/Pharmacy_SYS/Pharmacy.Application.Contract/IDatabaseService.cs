@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Pharmacy.domain;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Pharmacy.Application.Contract
         int DBSaveChanges();
         Task<int> DBSaveChangesAsync(CancellationToken cancellationToken = default);
 
+        IDbContextTransaction DbBeginTransaction(System.Data.IsolationLevel isolationLevel);
 
         public DbSet<Units> units { get; set; }
         public DbSet<ApplicationUser> AppUser { get; set; }

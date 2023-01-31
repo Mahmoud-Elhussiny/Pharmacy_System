@@ -22,6 +22,21 @@ namespace Pharmacy.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("DistributedCompanyItem", b =>
+                {
+                    b.Property<int>("ItemsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("distributedCompaniesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemsId", "distributedCompaniesId");
+
+                    b.HasIndex("distributedCompaniesId");
+
+                    b.ToTable("DistributedCompanyItem");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -294,13 +309,7 @@ namespace Pharmacy.Persistence.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("PurchasingBillId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SellingBillId")
                         .HasColumnType("int");
 
                     b.Property<int?>("itemId")
@@ -310,6 +319,12 @@ namespace Pharmacy.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("itemunitId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("operationTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("referanceoperationId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("timeCreated")
@@ -323,15 +338,13 @@ namespace Pharmacy.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PurchasingBillId");
-
-                    b.HasIndex("SellingBillId");
-
                     b.HasIndex("itemId");
 
                     b.HasIndex("itembarcodeId");
 
                     b.HasIndex("itemunitId");
+
+                    b.HasIndex("operationTypeId");
 
                     b.HasIndex("userId");
 
@@ -396,9 +409,6 @@ namespace Pharmacy.Persistence.Migrations
                     b.Property<int?>("clenderId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("distributedId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("divisible")
                         .HasColumnType("bit");
 
@@ -430,8 +440,6 @@ namespace Pharmacy.Persistence.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("clenderId");
-
-                    b.HasIndex("distributedId");
 
                     b.HasIndex("itemtypeId");
 
@@ -512,6 +520,27 @@ namespace Pharmacy.Persistence.Migrations
                     b.HasIndex("unitId");
 
                     b.ToTable("itemUnits");
+                });
+
+            modelBuilder.Entity("Pharmacy.domain.OperationType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("DescriptionAr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OperationType");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.PuchasingBillDetails", b =>
@@ -733,6 +762,21 @@ namespace Pharmacy.Persistence.Migrations
                     b.ToTable("units");
                 });
 
+            modelBuilder.Entity("DistributedCompanyItem", b =>
+                {
+                    b.HasOne("Pharmacy.domain.Item", null)
+                        .WithMany()
+                        .HasForeignKey("ItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pharmacy.domain.DistributedCompany", null)
+                        .WithMany()
+                        .HasForeignKey("distributedCompaniesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -786,14 +830,6 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.DataWarehouse", b =>
                 {
-                    b.HasOne("Pharmacy.domain.PurchasingBill", "PurchasingBill")
-                        .WithMany("DataWarehouses")
-                        .HasForeignKey("PurchasingBillId");
-
-                    b.HasOne("Pharmacy.domain.SellingBill", "SellingBill")
-                        .WithMany("DataWarehouses")
-                        .HasForeignKey("SellingBillId");
-
                     b.HasOne("Pharmacy.domain.Item", "Item")
                         .WithMany("DataWarehouses")
                         .HasForeignKey("itemId");
@@ -808,6 +844,10 @@ namespace Pharmacy.Persistence.Migrations
                         .WithMany("DataWarehouses")
                         .HasForeignKey("itemunitId");
 
+                    b.HasOne("Pharmacy.domain.OperationType", "OperationType")
+                        .WithMany("dataWarehouses")
+                        .HasForeignKey("operationTypeId");
+
                     b.HasOne("Pharmacy.domain.ApplicationUser", "ApplicationUser")
                         .WithMany("DataWarehouses")
                         .HasForeignKey("userId");
@@ -820,9 +860,7 @@ namespace Pharmacy.Persistence.Migrations
 
                     b.Navigation("ItemUnit");
 
-                    b.Navigation("PurchasingBill");
-
-                    b.Navigation("SellingBill");
+                    b.Navigation("OperationType");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.DistributedCompany", b =>
@@ -844,10 +882,6 @@ namespace Pharmacy.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("clenderId");
 
-                    b.HasOne("Pharmacy.domain.DistributedCompany", "DistributedCompany")
-                        .WithMany("Items")
-                        .HasForeignKey("distributedId");
-
                     b.HasOne("Pharmacy.domain.ItemType", "ItemType")
                         .WithMany("Items")
                         .HasForeignKey("itemtypeId");
@@ -857,8 +891,6 @@ namespace Pharmacy.Persistence.Migrations
                         .HasForeignKey("manufactureId");
 
                     b.Navigation("Calender");
-
-                    b.Navigation("DistributedCompany");
 
                     b.Navigation("ItemType");
 
@@ -1006,8 +1038,6 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.DistributedCompany", b =>
                 {
-                    b.Navigation("Items");
-
                     b.Navigation("Representers");
                 });
 
@@ -1037,10 +1067,13 @@ namespace Pharmacy.Persistence.Migrations
                     b.Navigation("DataWarehouses");
                 });
 
+            modelBuilder.Entity("Pharmacy.domain.OperationType", b =>
+                {
+                    b.Navigation("dataWarehouses");
+                });
+
             modelBuilder.Entity("Pharmacy.domain.PurchasingBill", b =>
                 {
-                    b.Navigation("DataWarehouses");
-
                     b.Navigation("PuchasingBillDetails");
                 });
 
@@ -1051,8 +1084,6 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.SellingBill", b =>
                 {
-                    b.Navigation("DataWarehouses");
-
                     b.Navigation("SellingBillDetails");
                 });
 

@@ -37,7 +37,7 @@ namespace Pharmacy.Application.Business.Crud_Items.Query
             output.sellingPrice = itemSelected.sellingPrice;
             output.itemtypeId = itemSelected.itemtypeId;
             output.manufactureId = itemSelected.manufactureId;
-            output.distributedId = itemSelected.distributedId;
+          //  output.distributedId = itemSelected.distributedId;
             output.clenderId = itemSelected.clenderId;
 
             return output;

@@ -29,14 +29,12 @@ namespace Pharmacy.domain
 
         [ForeignKey("TheManufacturer")]
         public int? manufactureId { get; set; }
-        [ForeignKey("DistributedCompany")]
-        public int? distributedId { get; set; }
         [ForeignKey("Calender")]
         public int? clenderId { get; set; }
         public virtual Calenders? Calender { get; set; } 
         public virtual ItemType? ItemType { get; set; }
         public virtual TheManufacturer? TheManufacturer { get; set; }
-        public virtual DistributedCompany? DistributedCompany { get; set; }
+        public virtual ICollection<DistributedCompany>? distributedCompanies { get; set; }
         public virtual ICollection<ItemUnit>? ItemUnits { get; set; }
         public virtual ICollection<ItemBarcode>? ItemBarcodes { get; set; }
         public virtual ICollection<SellingBillDetails>? SellingBillDetails { get; set; }

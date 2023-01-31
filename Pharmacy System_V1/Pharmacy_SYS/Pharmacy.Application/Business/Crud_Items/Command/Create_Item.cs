@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Pharmacy.Application.Contract;
 using Pharmacy.Core.CustomException;
 using Pharmacy.domain;
+using System.Transactions;
 
 namespace Pharmacy.Application.Business.Crud_Items.Command
 {
@@ -24,7 +25,13 @@ namespace Pharmacy.Application.Business.Crud_Items.Command
             _logger.LogInformation("Handling Create_Item business logic");
             Create_ItemHandlerOutput output = new Create_ItemHandlerOutput(request.CorrelationId());
 
-            var newItem = new Item();
+
+            
+        
+
+
+
+        var newItem = new Item();
 
             newItem.tradeNameEn = request.tradeNameEn.Trim();
             newItem.tradeNameAr = request.tradeNameAr.Trim();
@@ -36,15 +43,37 @@ namespace Pharmacy.Application.Business.Crud_Items.Command
             newItem.sellingPrice = request.sellingPrice;
             newItem.itemtypeId = request.itemtypeId;
             newItem.manufactureId = request.manufactureId;
-            newItem.distributedId = request.distributedId;
+           // newItem.distributedId = request.distributedId;
             newItem.clenderId = request.clenderId;
-            
-            _databaseService.items.Add(newItem);
 
-            if(await _databaseService.DBSaveChangesAsync(cancellationToken) == 0)
+
+            using (var transaction = new TransactionDealerRepository(_databaseService))
             {
-                throw new WebApiException("Error In Saving Data");
+
+                await _databaseService.items.AddAsync (newItem);
+
+                if(await _databaseService.DBSaveChangesAsync(cancellationToken) == 0)
+                {
+                    throw new WebApiException("Error In Saving Data");
+                }
+
+                var itemparcode = new ItemBarcode();
+
+                itemparcode.codeGenerated = request.codeGenerated;
+                itemparcode.batchNo = request.batchNo;
+                itemparcode.productionDate = request.productionDate;
+                itemparcode.itemId = newItem.Id;
+
+                await _databaseService.itemBarcodes.AddAsync(itemparcode);
+
+                if (await _databaseService.DBSaveChangesAsync(cancellationToken) == 0)
+                {
+                    throw new WebApiException("Error In Saving Data");
+                }
+
+                transaction.SetComplete();
             }
+
 
             output.Message = "Data Created Successfully";
 

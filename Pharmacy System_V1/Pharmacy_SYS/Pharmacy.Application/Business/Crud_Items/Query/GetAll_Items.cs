@@ -35,7 +35,7 @@ namespace Pharmacy.Application.Business.Crud_Items.Query
                 sellingPrice = o.sellingPrice,
                 itemtypeId = o.itemtypeId,
                 manufactureId = o.manufactureId,
-                distributedId = o.distributedId,
+             //   distributedId = o.distributedId,
                 clenderId = o.clenderId
 
             }).ToListAsync(cancellationToken);

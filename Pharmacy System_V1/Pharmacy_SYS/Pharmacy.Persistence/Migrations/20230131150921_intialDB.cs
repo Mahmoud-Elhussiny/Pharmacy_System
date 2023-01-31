@@ -87,6 +87,20 @@ namespace Pharmacy.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OperationType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DescriptionEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescriptionAr = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OperationType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TheManufacturer",
                 columns: table => new
                 {
@@ -290,7 +304,6 @@ namespace Pharmacy.Persistence.Migrations
                     itemtypeId = table.Column<int>(type: "int", nullable: true),
                     divisible = table.Column<bool>(type: "bit", nullable: false),
                     manufactureId = table.Column<int>(type: "int", nullable: true),
-                    distributedId = table.Column<int>(type: "int", nullable: true),
                     clenderId = table.Column<int>(type: "int", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -306,11 +319,6 @@ namespace Pharmacy.Persistence.Migrations
                         name: "FK_Item_Calenders_clenderId",
                         column: x => x.clenderId,
                         principalTable: "Calenders",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Item_DistributedCompany_distributedId",
-                        column: x => x.distributedId,
-                        principalTable: "DistributedCompany",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Item_itemTypes_itemtypeId",
@@ -342,6 +350,30 @@ namespace Pharmacy.Persistence.Migrations
                         name: "FK_representers_DistributedCompany_distributed_Company_Id",
                         column: x => x.distributed_Company_Id,
                         principalTable: "DistributedCompany",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DistributedCompanyItem",
+                columns: table => new
+                {
+                    ItemsId = table.Column<int>(type: "int", nullable: false),
+                    distributedCompaniesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DistributedCompanyItem", x => new { x.ItemsId, x.distributedCompaniesId });
+                    table.ForeignKey(
+                        name: "FK_DistributedCompanyItem_DistributedCompany_distributedCompaniesId",
+                        column: x => x.distributedCompaniesId,
+                        principalTable: "DistributedCompany",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DistributedCompanyItem_Item_ItemsId",
+                        column: x => x.ItemsId,
+                        principalTable: "Item",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -473,8 +505,8 @@ namespace Pharmacy.Persistence.Migrations
                     CurrentAmount = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     itemunitId = table.Column<int>(type: "int", nullable: true),
-                    PurchasingBillId = table.Column<int>(type: "int", nullable: true),
-                    SellingBillId = table.Column<int>(type: "int", nullable: true),
+                    operationTypeId = table.Column<int>(type: "int", nullable: true),
+                    referanceoperationId = table.Column<int>(type: "int", nullable: false),
                     visable = table.Column<bool>(type: "bit", nullable: false),
                     itembarcodeId = table.Column<int>(type: "int", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -505,14 +537,9 @@ namespace Pharmacy.Persistence.Migrations
                         principalTable: "itemUnits",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_dataWarehouses_purchasingBills_PurchasingBillId",
-                        column: x => x.PurchasingBillId,
-                        principalTable: "purchasingBills",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_dataWarehouses_sellingBills_SellingBillId",
-                        column: x => x.SellingBillId,
-                        principalTable: "sellingBills",
+                        name: "FK_dataWarehouses_OperationType_operationTypeId",
+                        column: x => x.operationTypeId,
+                        principalTable: "OperationType",
                         principalColumn: "Id");
                 });
 
@@ -603,14 +630,9 @@ namespace Pharmacy.Persistence.Migrations
                 column: "itemunitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_dataWarehouses_PurchasingBillId",
+                name: "IX_dataWarehouses_operationTypeId",
                 table: "dataWarehouses",
-                column: "PurchasingBillId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_dataWarehouses_SellingBillId",
-                table: "dataWarehouses",
-                column: "SellingBillId");
+                column: "operationTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_dataWarehouses_userId",
@@ -623,6 +645,11 @@ namespace Pharmacy.Persistence.Migrations
                 column: "TheManufacturerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DistributedCompanyItem_distributedCompaniesId",
+                table: "DistributedCompanyItem",
+                column: "distributedCompaniesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Item_ApplicationUserId",
                 table: "Item",
                 column: "ApplicationUserId");
@@ -631,11 +658,6 @@ namespace Pharmacy.Persistence.Migrations
                 name: "IX_Item_clenderId",
                 table: "Item",
                 column: "clenderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Item_distributedId",
-                table: "Item",
-                column: "distributedId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Item_itemtypeId",
@@ -744,6 +766,9 @@ namespace Pharmacy.Persistence.Migrations
                 name: "dataWarehouses");
 
             migrationBuilder.DropTable(
+                name: "DistributedCompanyItem");
+
+            migrationBuilder.DropTable(
                 name: "puchasingBillDetails");
 
             migrationBuilder.DropTable(
@@ -757,6 +782,9 @@ namespace Pharmacy.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "itemUnits");
+
+            migrationBuilder.DropTable(
+                name: "OperationType");
 
             migrationBuilder.DropTable(
                 name: "purchasingBills");
