@@ -30,9 +30,9 @@ namespace Pharmacy.Application.Business.Crud_Manufacturer.Query
             if(request.Id.HasValue && request.Id.Value!= 0)
                 allManufacturers = await _databaseService.TheManufacturer.Where(i=>i.Id==request.Id).ToListAsync(cancellationToken);
             if(!string.IsNullOrEmpty(request.NameAr))
-                allManufacturers=await _databaseService.TheManufacturer.Where(n=>n.NameAr==request.NameAr.Trim()).ToListAsync(cancellationToken);
+                allManufacturers=await _databaseService.TheManufacturer.Where(n=>n.NameAr.Contains(request.NameAr.Trim())).ToListAsync(cancellationToken);
             if(!string.IsNullOrEmpty(request.NameEn))
-                allManufacturers=await _databaseService.TheManufacturer.Where(E=>E.NameEn==request.NameEn.Trim()).ToListAsync(cancellationToken);
+                allManufacturers=await _databaseService.TheManufacturer.Where(E=>E.NameEn.Contains(request.NameEn.Trim())).ToListAsync(cancellationToken);
             output.allManufacturers = allManufacturers.Select(c => new AllManufacturers
             {
                 Id = c.Id,

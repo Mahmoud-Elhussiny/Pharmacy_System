@@ -27,11 +27,11 @@ namespace Pharmacy.Application.Business.UserManagment.Query
                 throw new Exception("There Are No Users");
             }
             if (!string.IsNullOrEmpty(request.firstName))
-                AllPh_Users = AllPh_Users.Where(f => f.firstName == request.firstName).ToList();
+                AllPh_Users = AllPh_Users.Where(f => f.firstName.Contains(request.firstName)).ToList();
             if(!string.IsNullOrEmpty(request.UserName))
-                AllPh_Users = AllPh_Users.Where(u => u.UserName == request.UserName).ToList();
+                AllPh_Users = AllPh_Users.Where(u => u.UserName.Contains( request.UserName)).ToList();
             if (!string.IsNullOrEmpty(request.Email))
-                AllPh_Users= AllPh_Users.Where(E => E.Email == request.Email).ToList();
+                AllPh_Users= AllPh_Users.Where(E => E.Email.Contains( request.Email)).ToList();
             if (request.isAdmin.HasValue)
                 AllPh_Users = AllPh_Users.Where(A => A.isAdmin == request.isAdmin).ToList();
             output.phUsers = AllPh_Users.Select(o => new PH_Users {
