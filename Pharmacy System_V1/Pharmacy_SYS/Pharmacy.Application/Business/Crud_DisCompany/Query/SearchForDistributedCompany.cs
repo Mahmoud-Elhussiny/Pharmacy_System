@@ -30,9 +30,9 @@ namespace Pharmacy.Application.Business.Crud_DisCompany.Query
             if (request.Id.HasValue && request.Id.Value != 0)
                 allditributedcompanies = await _databaseService.distributedCompanies.Where(i => i.Id == request.Id).ToListAsync(cancellationToken);
             if (!string.IsNullOrEmpty(request.NameAr))
-                allditributedcompanies = await _databaseService.distributedCompanies.Where(n => n.NameAr == request.NameAr.Trim()).ToListAsync(cancellationToken);
+                allditributedcompanies = await _databaseService.distributedCompanies.Where(n => n.NameAr.Contains(request.NameAr.Trim())).ToListAsync(cancellationToken);
             if (!string.IsNullOrEmpty(request.NameEn))
-                allditributedcompanies = await _databaseService.distributedCompanies.Where(E => E.NameEn == request.NameEn.Trim()).ToListAsync(cancellationToken);
+                allditributedcompanies = await _databaseService.distributedCompanies.Where(E => E.NameEn.Contains(request.NameEn.Trim())).ToListAsync(cancellationToken);
             if (request.TheManufacturerId.HasValue && request.TheManufacturerId.Value != 0)
                 allditributedcompanies = await _databaseService.distributedCompanies.Where(i => i.TheManufacturerId == request.TheManufacturerId).ToListAsync(cancellationToken);
             output.distributedCompanies = allditributedcompanies.Select(c => new All_DistributedCompanies

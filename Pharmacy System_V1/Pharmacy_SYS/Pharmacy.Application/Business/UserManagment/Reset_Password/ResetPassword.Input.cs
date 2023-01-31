@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Pharmacy.Application.Masseges;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Pharmacy.Application.Business.UserManagment.Reset_Password
 {
@@ -8,17 +9,12 @@ namespace Pharmacy.Application.Business.UserManagment.Reset_Password
     {
         public ResetPasswordHandlerInput() { }
         public ResetPasswordHandlerInput(Guid correlationId) : base(correlationId) { }
-        public string Token { get; set; }
-        [EmailAddress]
-        public string Email { get; set; }
+        [IgnoreDataMember]
         public string userName { get; set; }
-
-        [Required]
-        [StringLength(60, MinimumLength = 5)]
-        public string NewPassword { get; set; }
-
-        [Required]
-        [StringLength(60, MinimumLength = 5)]
-        public string ConfirmPassword { get; set; }
+        public string Token { get; set; } = null!;
+        [EmailAddress]
+        public string Email { get; set; } = null!;
+        public string NewPassword { get; set; } = null!;
+        public string ConfirmPassword { get; set; } = null!;
     }
 }
