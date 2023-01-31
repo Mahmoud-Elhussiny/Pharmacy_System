@@ -29,7 +29,6 @@ namespace Pharmacy.Application.Business.Crud_Items.Query
                 tradeNameAr = o.tradeNameAr,
                 chemicalName = o.chemicalName,
                 Code = o.Code,
-                batchNo = o.batchNo,
                 molality = o.molality,
                 duration = o.duration,
                 buyingPrice = o.buyingPrice,
@@ -48,8 +47,6 @@ namespace Pharmacy.Application.Business.Crud_Items.Query
                 AllItems = AllItems.Where(o => o.chemicalName.StartsWith(request.chemicalName.Trim())).ToList();
             if (!String.IsNullOrEmpty(request.Code))
                 AllItems = AllItems.Where(o => o.Code.StartsWith(request.Code.Trim())).ToList();
-            if (!String.IsNullOrEmpty(request.batchNo))
-                AllItems = AllItems.Where(o => o.batchNo.StartsWith(request.batchNo.Trim())).ToList();
             if (request.molality.HasValue)
                 AllItems = AllItems.Where(o => o.molality == request.molality).ToList();
             if (request.duration.HasValue)

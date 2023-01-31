@@ -30,7 +30,6 @@ namespace Pharmacy.Application.Business.Crud_Items.Command
             newItem.tradeNameAr = request.tradeNameAr.Trim();
             newItem.chemicalName = request.chemicalName.Trim();
             newItem.Code = request.Code.Trim();
-            newItem.batchNo = request.batchNo.Trim();
             newItem.molality = request.molality;
             newItem.duration = request.duration;
             newItem.buyingPrice = request.buyingPrice;

@@ -29,7 +29,6 @@ namespace Pharmacy.Application.Business.Crud_Items.Query
                 tradeNameAr = o.tradeNameAr,
                 chemicalName = o.chemicalName,
                 Code = o.Code,
-                batchNo = o.batchNo,
                 molality = o.molality,
                 duration = o.duration,
                 buyingPrice = o.buyingPrice,

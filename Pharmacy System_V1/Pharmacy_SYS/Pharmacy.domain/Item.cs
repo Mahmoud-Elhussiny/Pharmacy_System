@@ -16,13 +16,17 @@ namespace Pharmacy.domain
         public string tradeNameAr { get; set; } = "";
         public string chemicalName { get; set; } = "";
         public string Code { get; set; } = null!;
-        public string batchNo { get; set; } = null!;
+     
         public int? molality { get; set; }
         public int duration { get; set; }
         public decimal? buyingPrice { get; set; }
         public decimal? sellingPrice { get; set; }
+
         [ForeignKey("ItemType")]
         public int? itemtypeId { get; set; }
+
+        public bool divisible { get; set; }
+
         [ForeignKey("TheManufacturer")]
         public int? manufactureId { get; set; }
         [ForeignKey("DistributedCompany")]

@@ -12,8 +12,8 @@ using Pharmacy.Persistence.Context;
 namespace Pharmacy.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseService))]
-    [Migration("20230124102003_altertablename_Calenders")]
-    partial class altertablename_Calenders
+    [Migration("20230130141759_intialDB")]
+    partial class intialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -290,8 +290,20 @@ namespace Pharmacy.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("buyingPrice")
+                    b.Property<int>("CurrentAmount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("PurchasingBillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SellingBillId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("itemId")
                         .HasColumnType("int");
@@ -302,16 +314,20 @@ namespace Pharmacy.Persistence.Migrations
                     b.Property<int?>("itemunitId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("sellingPrice")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime>("timeCreated")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("userId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("visable")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PurchasingBillId");
+
+                    b.HasIndex("SellingBillId");
 
                     b.HasIndex("itemId");
 
@@ -372,10 +388,6 @@ namespace Pharmacy.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("batchNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal?>("buyingPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -388,6 +400,9 @@ namespace Pharmacy.Persistence.Migrations
 
                     b.Property<int?>("distributedId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("divisible")
+                        .HasColumnType("bit");
 
                     b.Property<int>("duration")
                         .HasColumnType("int");
@@ -435,8 +450,10 @@ namespace Pharmacy.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("batchNo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("codeGenerated")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("itemId")
@@ -484,7 +501,7 @@ namespace Pharmacy.Persistence.Migrations
                     b.Property<int>("itemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("quantityContent")
+                    b.Property<int?>("quantityContent")
                         .HasColumnType("int");
 
                     b.Property<int>("unitId")
@@ -685,8 +702,7 @@ namespace Pharmacy.Persistence.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -709,7 +725,12 @@ namespace Pharmacy.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("parentId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("parentId");
 
                     b.ToTable("units");
                 });
@@ -767,6 +788,14 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.DataWarehouse", b =>
                 {
+                    b.HasOne("Pharmacy.domain.PurchasingBill", "PurchasingBill")
+                        .WithMany("DataWarehouses")
+                        .HasForeignKey("PurchasingBillId");
+
+                    b.HasOne("Pharmacy.domain.SellingBill", "SellingBill")
+                        .WithMany("DataWarehouses")
+                        .HasForeignKey("SellingBillId");
+
                     b.HasOne("Pharmacy.domain.Item", "Item")
                         .WithMany("DataWarehouses")
                         .HasForeignKey("itemId");
@@ -792,6 +821,10 @@ namespace Pharmacy.Persistence.Migrations
                     b.Navigation("Item");
 
                     b.Navigation("ItemUnit");
+
+                    b.Navigation("PurchasingBill");
+
+                    b.Navigation("SellingBill");
                 });
 
             modelBuilder.Entity("Pharmacy.domain.DistributedCompany", b =>
@@ -953,6 +986,15 @@ namespace Pharmacy.Persistence.Migrations
                     b.Navigation("Unit");
                 });
 
+            modelBuilder.Entity("Pharmacy.domain.Units", b =>
+                {
+                    b.HasOne("Pharmacy.domain.Units", "parent")
+                        .WithMany("Childes")
+                        .HasForeignKey("parentId");
+
+                    b.Navigation("parent");
+                });
+
             modelBuilder.Entity("Pharmacy.domain.ApplicationUser", b =>
                 {
                     b.Navigation("DataWarehouses");
@@ -999,6 +1041,8 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.PurchasingBill", b =>
                 {
+                    b.Navigation("DataWarehouses");
+
                     b.Navigation("PuchasingBillDetails");
                 });
 
@@ -1009,6 +1053,8 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.SellingBill", b =>
                 {
+                    b.Navigation("DataWarehouses");
+
                     b.Navigation("SellingBillDetails");
                 });
 
@@ -1021,6 +1067,8 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.Units", b =>
                 {
+                    b.Navigation("Childes");
+
                     b.Navigation("ItemUnits");
 
                     b.Navigation("PurchasingBills");

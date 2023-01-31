@@ -16,8 +16,7 @@ namespace Pharmacy.domain
         public string NameEn { get; set; } = null!;
         public string NameAr { get; set; } = null!;
         public string Location { get; set; } = null!;
-        [MaxLength(11)]
-        [MinLength(11)]
+       
         public string Phone { get; set; } = null!;
 
         public ICollection<DistributedCompany> distributedCompanies { get; set; } = null!;

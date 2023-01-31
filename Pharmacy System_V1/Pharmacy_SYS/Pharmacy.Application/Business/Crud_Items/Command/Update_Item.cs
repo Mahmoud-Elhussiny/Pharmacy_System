@@ -37,8 +37,6 @@ namespace Pharmacy.Application.Business.Crud_Items.Command
                 itemUpdated.chemicalName = request.chemicalName.Trim();
             if(!String.IsNullOrEmpty(request.Code))
                 itemUpdated.Code = request.Code.Trim();
-            if(!String.IsNullOrEmpty(request.batchNo))
-                itemUpdated.batchNo = request.batchNo.Trim();
             if(request.molality.HasValue)
                 itemUpdated.molality = request.molality;
             if (request.duration.HasValue)

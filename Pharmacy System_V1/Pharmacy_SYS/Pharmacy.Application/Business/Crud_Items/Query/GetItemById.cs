@@ -31,7 +31,6 @@ namespace Pharmacy.Application.Business.Crud_Items.Query
             output.tradeNameAr = itemSelected.tradeNameAr;
             output.chemicalName = itemSelected.chemicalName;
             output.Code = itemSelected.Code;
-            output.batchNo = itemSelected.batchNo;
             output.molality = itemSelected.molality;
             output.duration = itemSelected.duration;
             output.buyingPrice = itemSelected.buyingPrice;

@@ -23,18 +23,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 
-
-
 builder.Services.AddDbContext<DatabaseService>(option =>
 
     option.UseSqlServer(builder.Configuration.GetConnectionString("PharmacyConnection"))
 );
 
-
-//builder.Services.AddScoped<IDatabaseService,DatabaseService>();
+builder.Services.AddScoped<IDatabaseService,DatabaseService>();
 
 builder.Services.AddScoped<IDatabaseService>(provider => provider.GetService<DatabaseService>());
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

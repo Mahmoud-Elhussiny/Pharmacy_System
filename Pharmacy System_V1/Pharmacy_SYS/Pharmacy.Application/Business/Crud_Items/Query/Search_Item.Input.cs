@@ -11,7 +11,6 @@ namespace Pharmacy.Application.Business.Crud_Items.Query
         public string? tradeNameAr { get; set; }
         public string? chemicalName { get; set; }
         public string? Code { get; set; }
-        public string? batchNo { get; set; }
         public int? molality { get; set; }
         public int? duration { get; set; }
         public decimal? buyingPrice { get; set; }
