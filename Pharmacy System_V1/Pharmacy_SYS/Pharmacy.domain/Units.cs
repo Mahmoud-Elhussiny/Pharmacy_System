@@ -16,15 +16,14 @@ namespace Pharmacy.domain
         
         [ForeignKey("parent")]
         public int? parentId { get; set; }
-
         
         [InverseProperty("Childes")]
         public Units parent { get; set; }
-        
+ 
         public ICollection<Units> Childes { get; set; }
         public virtual ICollection<ItemUnit> ItemUnits { get; set; }
         public virtual ICollection<SellingBillDetails> SellingBillDetails { get; set; }
-        public virtual ICollection<PurchasingBill> PurchasingBills { get; set; }
+        public virtual ICollection<PuchasingBillDetails > PuchasingBillDetails{get; set;}
         
 
     }

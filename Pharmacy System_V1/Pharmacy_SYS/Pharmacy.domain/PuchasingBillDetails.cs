@@ -10,9 +10,10 @@ namespace Pharmacy.domain
     public class PuchasingBillDetails
     {
         public int Id { get; set; }
+        public int quantity { get; set; }
+
         [ForeignKey("Item")]
         public int? itemId { get; set; }
-        public int quantity { get; set; }
         [ForeignKey("Unit")]
         public int? unitId { get; set; }
         [ForeignKey("PurchasingBill")]

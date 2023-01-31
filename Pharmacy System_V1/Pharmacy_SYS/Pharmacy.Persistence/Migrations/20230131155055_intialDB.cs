@@ -470,8 +470,7 @@ namespace Pharmacy.Persistence.Migrations
                     tax = table.Column<int>(type: "int", nullable: false),
                     timeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    representerId = table.Column<int>(type: "int", nullable: true),
-                    UnitsId = table.Column<int>(type: "int", nullable: true)
+                    representerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -486,11 +485,6 @@ namespace Pharmacy.Persistence.Migrations
                         name: "FK_purchasingBills_representers_representerId",
                         column: x => x.representerId,
                         principalTable: "representers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_purchasingBills_units_UnitsId",
-                        column: x => x.UnitsId,
-                        principalTable: "units",
                         principalColumn: "Id");
                 });
 
@@ -549,8 +543,8 @@ namespace Pharmacy.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    itemId = table.Column<int>(type: "int", nullable: true),
                     quantity = table.Column<int>(type: "int", nullable: false),
+                    itemId = table.Column<int>(type: "int", nullable: true),
                     unitId = table.Column<int>(type: "int", nullable: true),
                     purchasingbillId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -705,11 +699,6 @@ namespace Pharmacy.Persistence.Migrations
                 column: "representerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_purchasingBills_UnitsId",
-                table: "purchasingBills",
-                column: "UnitsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_purchasingBills_userId",
                 table: "purchasingBills",
                 column: "userId");
@@ -796,10 +785,10 @@ namespace Pharmacy.Persistence.Migrations
                 name: "Item");
 
             migrationBuilder.DropTable(
-                name: "representers");
+                name: "units");
 
             migrationBuilder.DropTable(
-                name: "units");
+                name: "representers");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

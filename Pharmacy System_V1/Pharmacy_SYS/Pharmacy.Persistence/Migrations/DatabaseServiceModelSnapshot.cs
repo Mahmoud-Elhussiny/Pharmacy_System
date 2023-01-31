@@ -582,9 +582,6 @@ namespace Pharmacy.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("UnitsId")
-                        .HasColumnType("int");
-
                     b.Property<int>("discount")
                         .HasColumnType("int");
 
@@ -605,8 +602,6 @@ namespace Pharmacy.Persistence.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UnitsId");
 
                     b.HasIndex("representerId");
 
@@ -940,7 +935,7 @@ namespace Pharmacy.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Pharmacy.domain.Units", "Unit")
-                        .WithMany()
+                        .WithMany("PuchasingBillDetails")
                         .HasForeignKey("unitId");
 
                     b.Navigation("Item");
@@ -952,10 +947,6 @@ namespace Pharmacy.Persistence.Migrations
 
             modelBuilder.Entity("Pharmacy.domain.PurchasingBill", b =>
                 {
-                    b.HasOne("Pharmacy.domain.Units", null)
-                        .WithMany("PurchasingBills")
-                        .HasForeignKey("UnitsId");
-
                     b.HasOne("Pharmacy.domain.Representer", "Representer")
                         .WithMany("PurchasingBill")
                         .HasForeignKey("representerId");
@@ -1100,7 +1091,7 @@ namespace Pharmacy.Persistence.Migrations
 
                     b.Navigation("ItemUnits");
 
-                    b.Navigation("PurchasingBills");
+                    b.Navigation("PuchasingBillDetails");
 
                     b.Navigation("SellingBillDetails");
                 });

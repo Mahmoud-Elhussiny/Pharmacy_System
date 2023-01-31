@@ -16,14 +16,15 @@ namespace Pharmacy.domain
         public DateTime timeCreated { get; set; }
         [ForeignKey("ApplicationUser")]
         public string userId { get; set; }
+        
         [ForeignKey("Representer")]
         public int? representerId { get; set; }
         public virtual Representer? Representer { get; set; }
+        
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual ICollection<PuchasingBillDetails> PuchasingBillDetails { get; set; }
         
-
 
     }
 }
