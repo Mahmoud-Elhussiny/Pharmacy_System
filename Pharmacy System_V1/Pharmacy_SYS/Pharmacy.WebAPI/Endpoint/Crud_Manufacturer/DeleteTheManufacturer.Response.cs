@@ -2,7 +2,7 @@
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_Manufacturer
 {
-    public class DeleteTheManufacturerEndPointResponse : BaseRessponse
+    public class DeleteTheManufacturerEndPointResponse : BaseResponse
     {
         public DeleteTheManufacturerEndPointResponse() { }
         public DeleteTheManufacturerEndPointResponse(Guid correlationId) : base(correlationId) { }

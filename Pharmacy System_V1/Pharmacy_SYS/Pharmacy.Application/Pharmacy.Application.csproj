@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Business\Crude_ItemParcode\Quary\" />
+    <Folder Include="Business\Crud_SellingBill\Query\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
 

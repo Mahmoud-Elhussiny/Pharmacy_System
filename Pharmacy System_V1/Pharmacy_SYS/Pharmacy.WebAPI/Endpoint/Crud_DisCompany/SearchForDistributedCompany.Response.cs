@@ -3,7 +3,7 @@ using Pharmacy.Application.Masseges;
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_DisCompany
 {
-    public class SearchForDistributedCompanyEndPointResponse : BaseRessponse
+    public class SearchForDistributedCompanyEndPointResponse : BaseResponse
     {
         public SearchForDistributedCompanyEndPointResponse() { }
         public SearchForDistributedCompanyEndPointResponse(Guid correlationId) : base(correlationId) { }

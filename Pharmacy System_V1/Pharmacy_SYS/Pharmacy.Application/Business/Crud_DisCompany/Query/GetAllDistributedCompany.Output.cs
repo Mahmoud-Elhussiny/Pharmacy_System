@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_DisCompany.Query
 {
-    public class GetAllDistributedCompanyHandlerOutput : BaseRessponse
+    public class GetAllDistributedCompanyHandlerOutput : BaseResponse
     {
         public GetAllDistributedCompanyHandlerOutput() { }
         public GetAllDistributedCompanyHandlerOutput(Guid correlationId) : base(correlationId) { }

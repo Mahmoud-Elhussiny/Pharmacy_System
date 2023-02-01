@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_Manufacturer.Query
 {
-    public class SearchForManufacturerHandlerOutput : BaseRessponse
+    public class SearchForManufacturerHandlerOutput : BaseResponse
     {
         public SearchForManufacturerHandlerOutput() { }
         public SearchForManufacturerHandlerOutput(Guid correlationId) : base(correlationId) { }

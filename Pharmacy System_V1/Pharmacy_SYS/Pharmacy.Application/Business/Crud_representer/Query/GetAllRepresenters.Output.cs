@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_representer.Query
 {
-    public class GetAllRepresentersHandlerOutput : BaseRessponse
+    public class GetAllRepresentersHandlerOutput : BaseResponse
     {
         public GetAllRepresentersHandlerOutput() { }
         public GetAllRepresentersHandlerOutput(Guid correlationId) : base(correlationId) { }

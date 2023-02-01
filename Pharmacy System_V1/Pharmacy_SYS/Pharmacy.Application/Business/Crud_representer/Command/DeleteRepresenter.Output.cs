@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_representer.Command
 {
-    public class DeleteRepresenterHandlerOutput : BaseRessponse
+    public class DeleteRepresenterHandlerOutput : BaseResponse
     {
         public DeleteRepresenterHandlerOutput() { }
         public DeleteRepresenterHandlerOutput(Guid correlationId) : base(correlationId) { }

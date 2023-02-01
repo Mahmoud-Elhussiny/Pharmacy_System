@@ -2,7 +2,7 @@
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_Manufacturer
 {
-    public class GetTheManufacturerByIdEndPointResponse : BaseRessponse
+    public class GetTheManufacturerByIdEndPointResponse : BaseResponse
     {
         public GetTheManufacturerByIdEndPointResponse() { }
         public GetTheManufacturerByIdEndPointResponse(Guid correlationId) : base(correlationId) { }

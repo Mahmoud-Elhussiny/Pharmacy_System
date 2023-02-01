@@ -5,7 +5,7 @@ using Pharmacy.Application.Masseges;
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_representer
 {
-    public class GetAllRepresentersEndPointResponse : BaseRessponse
+    public class GetAllRepresentersEndPointResponse : BaseResponse
     {
         public GetAllRepresentersEndPointResponse() { }
         public GetAllRepresentersEndPointResponse(Guid correlationId) : base(correlationId) { }

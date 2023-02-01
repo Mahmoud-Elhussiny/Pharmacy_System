@@ -2,7 +2,7 @@
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_representer
 {
-    public class UpdateRepresnterEndPointResponse : BaseRessponse
+    public class UpdateRepresnterEndPointResponse : BaseResponse
     {
         public UpdateRepresnterEndPointResponse() { }
         public UpdateRepresnterEndPointResponse(Guid correlationId) : base(correlationId) { }

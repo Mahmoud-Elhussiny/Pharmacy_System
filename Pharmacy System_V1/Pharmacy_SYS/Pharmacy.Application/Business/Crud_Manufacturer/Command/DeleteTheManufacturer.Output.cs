@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_Manufacturer.Command
 {
-    public class DeleteTheManufacturerHandlerOutput : BaseRessponse
+    public class DeleteTheManufacturerHandlerOutput : BaseResponse
     {
         public DeleteTheManufacturerHandlerOutput() { }
         public DeleteTheManufacturerHandlerOutput(Guid correlationId) : base(correlationId) { }
