@@ -1,7 +1,7 @@
 ﻿using Pharmacy.Application.Masseges;
 namespace Pharmacy.Application.Business.UserManagment.Query
 {
-    public class GetUserByUserNameHandlerOutput : BaseRessponse
+    public class GetUserByUserNameHandlerOutput : BaseResponse
     {
         public GetUserByUserNameHandlerOutput() { }
         public GetUserByUserNameHandlerOutput(Guid correlationId) : base(correlationId) { }

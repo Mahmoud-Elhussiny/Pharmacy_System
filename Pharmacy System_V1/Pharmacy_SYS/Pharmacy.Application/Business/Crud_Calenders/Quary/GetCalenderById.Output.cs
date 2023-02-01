@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_Calenders.Quary
 {
-    public class GetCalenderByIdHandlerOutput : BaseRessponse
+    public class GetCalenderByIdHandlerOutput : BaseResponse
     {
         public GetCalenderByIdHandlerOutput() { }
         public GetCalenderByIdHandlerOutput(Guid correlationId) : base(correlationId) { }

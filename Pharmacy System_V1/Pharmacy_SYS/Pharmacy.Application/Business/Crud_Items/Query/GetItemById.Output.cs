@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_Items.Query
 {
-    public class GetItemByIdHandlerOutput : BaseRessponse
+    public class GetItemByIdHandlerOutput : BaseResponse
     {
         public GetItemByIdHandlerOutput() { }
         public GetItemByIdHandlerOutput(Guid correlationId) : base(correlationId) { }
