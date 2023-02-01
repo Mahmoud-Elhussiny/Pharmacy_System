@@ -2,7 +2,7 @@
 
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
 {
-    public class LogoutEndPointResponse : BaseRessponse
+    public class LogoutEndPointResponse : BaseResponse
     {
         public LogoutEndPointResponse() { }
         public LogoutEndPointResponse(Guid correlationId) : base(correlationId) { }

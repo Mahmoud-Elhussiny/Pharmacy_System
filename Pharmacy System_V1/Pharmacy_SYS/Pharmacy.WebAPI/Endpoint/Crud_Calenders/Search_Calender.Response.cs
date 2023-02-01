@@ -3,7 +3,7 @@ using Pharmacy.Application.Masseges;
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_Calenders
 {
-    public class Search_CalenderEndPointResponse : BaseRessponse
+    public class Search_CalenderEndPointResponse : BaseResponse
     {
         public Search_CalenderEndPointResponse() { }
         public Search_CalenderEndPointResponse(Guid correlationId) : base(correlationId) { }

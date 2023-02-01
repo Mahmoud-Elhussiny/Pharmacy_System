@@ -2,7 +2,7 @@
 
 namespace Pharmacy.Application.Business.Crud_Units.Query
 {
-    public class Search_UnitHandlerOutput : BaseRessponse
+    public class Search_UnitHandlerOutput : BaseResponse
     {
         public Search_UnitHandlerOutput() { }
         public Search_UnitHandlerOutput(Guid correlationId) : base(correlationId) { }
