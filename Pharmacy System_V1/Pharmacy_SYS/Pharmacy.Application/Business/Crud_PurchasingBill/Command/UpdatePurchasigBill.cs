@@ -71,6 +71,7 @@ namespace Pharmacy.Application.Business.Crud_PurchasingBill.Command
                     _databaseService.DBSaveChanges();
                 } 
             }
+            transaction.SetComplete();
             output.Message = "Data Updated Sucessfully";
             return output;
         }
