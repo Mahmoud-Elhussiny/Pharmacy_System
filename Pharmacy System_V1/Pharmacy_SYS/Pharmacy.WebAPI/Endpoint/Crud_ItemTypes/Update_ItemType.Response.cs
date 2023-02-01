@@ -2,7 +2,7 @@
 
 namespace Pharmacy.WebAPI.Endpoint.Crud_ItemTypes
 {
-    public class Update_ItemTypeEndPointResponse : BaseRessponse
+    public class Update_ItemTypeEndPointResponse : BaseResponse
     {
         public Update_ItemTypeEndPointResponse() { }
         public Update_ItemTypeEndPointResponse(Guid correlationId) : base(correlationId) { }

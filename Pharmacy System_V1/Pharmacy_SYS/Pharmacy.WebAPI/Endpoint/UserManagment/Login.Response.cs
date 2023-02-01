@@ -2,7 +2,7 @@
 using Pharmacy.Core.UserManagement;
 namespace Pharmacy.WebAPI.Endpoint.UserManagment
 {
-    public class LoginEndPointResponse : BaseRessponse
+    public class LoginEndPointResponse : BaseResponse
     {
         public LoginEndPointResponse() { }
         public LoginEndPointResponse(Guid correlationId) : base(correlationId) { }
